@@ -1,0 +1,128 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Client{
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name  String
+  address String?
+  phone   String
+  email   String
+  password  String
+  orders Order[]
+
+}
+
+model Product{
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name  String
+  price Decimal
+  details_order Details_Order[]
+  product_category Product_Category[]
+}
+
+model Order{
+   id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  client Client @relation (fields: [client_id],references: [id])
+  client_id Int
+  details_order Details_Order[]
+  date  DateTime
+  total Decimal
+  order_status String
+  payment_status String
+  payment Payment[]
+}
+
+enum Method_pay {
+  PENDING
+  PAYED
+}
+
+model Details_Order{
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  order  Order @relation(fields: [order_id],references: [id])
+  order_id  Int
+  product  Product @relation(fields: [product_id],references: [id])
+  product_id  Int
+
+}
+
+model Product_Category{
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product Product @relation (fields: [product_id],references: [id])
+  product_id Int 
+  category Category @relation (fields: [category_id],references: [id])
+  category_id Int
+}
+
+model Category{
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String
+  product_category Product_Category[]
+}
+
+
+model Opening_hour {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  start_hour DateTime    
+  end_hour DateTime   
+  date   DateTime
+}
+
+model Payment{
+   id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  type String
+  amount Decimal
+  state Method_pay
+  order Order @relation(fields: [order_id],references: [id])
+  order_id Int
+}
+
+model User{
+   id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String
+  email String @unique
+  password String
+  address String
+  rol  Rol @relation(fields: [rol_id],references: [id])
+  rol_id  Int
+}
+
+model Rol{
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name String
+  user User[]
+}
+

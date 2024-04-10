@@ -1,1 +1,14 @@
-console.log("hola");
+
+import express from 'express'
+import { routes } from './routes'
+
+const app  =express()
+
+const PORT  = process.env.PORT || 5000
+
+
+app.use(routes)
+
+
+app.listen(PORT,()=>console.log("server up port 5000"))
+

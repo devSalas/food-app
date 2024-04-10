@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.routes = void 0;
 const express_1 = require("express");
 const user_1 = __importDefault(require("./user"));
+const rol_1 = __importDefault(require("./rol"));
 exports.routes = (0, express_1.Router)();
 exports.routes
-    .use(user_1.default);
+    .use(user_1.default)
+    .use(rol_1.default);

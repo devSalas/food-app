@@ -24,12 +24,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const UserController = __importStar(require("../controllers/UserController"));
-const userRouter = (0, express_1.Router)();
-userRouter
-    .get('/users/', UserController.getUsers)
-    .post('/users/', UserController.createUser)
-    .get('/users/:name', UserController.findUserbyName)
-    .delete('/users/', UserController.deleteUser)
-    .put('/users/', UserController.updateUser);
-exports.default = userRouter;
+const RolController = __importStar(require("../controllers/RolController"));
+const rolRouter = (0, express_1.Router)();
+rolRouter
+    .get('/roles/', RolController.getRoles)
+    .post('/roles/', RolController.createRol)
+    .get('/roles/:name', RolController.findRolbyName)
+    .delete('/roles/', RolController.deleteRol)
+    .put('/roles/', RolController.updateRol);
+exports.default = rolRouter;

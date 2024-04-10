@@ -1,5 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { EncryptPassword } from "../utility/bcrypt/EncryptPassword";
+import { getRolbyName } from "./RolService";
 
 const prisma = new PrismaClient()
 
@@ -17,7 +18,11 @@ export async function createUser({email,password,name,address}:{email:string,pas
 
     const passwordEncrypt=await EncryptPassword({password})
 
-    const user=await prisma.user.create({data:{address,email,password:passwordEncrypt,name,image:"",rol_id:1}})
+    const rol=await getRolbyName({name:"client"})
+
+    if (!rol.id) throw new Error("Server Error")
+
+    const user=await prisma.user.create({data:{address,email,password:passwordEncrypt,name,image:"",rol_id:rol.id}})
 
     return user
 }

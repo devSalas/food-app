@@ -23,6 +23,7 @@
 		"@biomejs/biome": "1.6.4",
 		"@types/express": "^4.17.21",
 		"concurrently": "^8.2.2",
+		"nodemon": "^3.1.0",
 		"prisma": "^5.12.1"
 	}
 }

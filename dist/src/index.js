@@ -7,5 +7,6 @@ const express_1 = __importDefault(require("express"));
 const routes_1 = require("./routes");
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5000;
+app.use(express_1.default.json());
 app.use(routes_1.routes);
 app.listen(PORT, () => console.log("server up port 5000"));

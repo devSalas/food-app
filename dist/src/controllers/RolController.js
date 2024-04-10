@@ -23,70 +23,55 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.deleteUser = exports.findUserbyName = exports.findUserbyId = exports.createUser = exports.getUsers = void 0;
-const services = __importStar(require("../services/UserService"));
-async function getUsers(req, res) {
-    try {
-        const users = await services.getUsers();
-        return res.status(200).json({ message: "gerson junior", data: users });
-    }
-    catch (error) {
-    }
+exports.updateRol = exports.deleteRol = exports.findRolbyName = exports.createRol = exports.getRoles = void 0;
+const services = __importStar(require("../services/RolService"));
+async function getRoles(req, res) {
+    const roles = await services.getRoles();
+    return res.status(200).json({ message: "gerson junior", data: roles });
 }
-exports.getUsers = getUsers;
-async function createUser(req, res) {
-    const { address, email, image, name, password } = req.body;
+exports.getRoles = getRoles;
+async function createRol(req, res) {
+    const { name } = req.body;
     try {
-        const users = await services.createUser({ address, email, image: "", name, password });
+        const roles = await services.createRol({ name });
         res.status(201).json({ message: "gerson junior created" });
     }
     catch (error) {
         res.status(400).json({ message: "msg" });
     }
 }
-exports.createUser = createUser;
-async function findUserbyId(req, res) {
-    const id = 2;
-    try {
-        const user = await services.getUserbyId({ id });
-        res.status(200).json({ message: "gerson junior", data: user });
-    }
-    catch (error) {
-        res.status(404).json({ message: "msg" });
-    }
-}
-exports.findUserbyId = findUserbyId;
-async function findUserbyName(req, res) {
+exports.createRol = createRol;
+async function findRolbyName(req, res) {
     const { name } = req.params;
     try {
-        const user = await services.getUserbyName({ name });
+        const user = await services.getRolbyName({ name });
         res.status(200).json({ message: "gerson junior", data: user });
     }
     catch (error) {
         res.status(404).json({ message: "msg" });
     }
 }
-exports.findUserbyName = findUserbyName;
-async function deleteUser(req, res) {
-    const id = 2;
+exports.findRolbyName = findRolbyName;
+async function deleteRol(req, res) {
+    const { id } = req.body;
     try {
-        const user = await services.deleteUser({ id });
+        const user = await services.deleteRol({ id });
         res.status(204).json({ message: "gerson junior delete" });
     }
     catch (error) {
         res.status(404).json({ message: "msg" });
     }
 }
-exports.deleteUser = deleteUser;
-async function updateUser(req, res) {
-    const id = 2;
-    const { address, email, image, name, password } = req.body;
+exports.deleteRol = deleteRol;
+async function updateRol(req, res) {
+    const { id } = req.body;
+    const { name } = req.body;
     try {
-        const user = await services.updateUser({ id, address, email, image, name, password });
+        const user = await services.updateRol({ id, name });
         res.status(200).json({ message: "gerson junior update" });
     }
     catch (error) {
         res.status(404).json({ message: "msg" });
     }
 }
-exports.updateUser = updateUser;
+exports.updateRol = updateRol;

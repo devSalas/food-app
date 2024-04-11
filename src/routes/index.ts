@@ -5,14 +5,15 @@ import { categoryRouter } from "./category";
 import { clientRouter } from "./client";
 import { productRouter } from "./product";
 import { orderRouter } from "./order";
+import { orderDetailRouter } from "./orderDetail";
 
-export const routes = Router()
-
+export const routes = Router();
 
 routes
-    .use(userRouter)
-    .use(rolRouter)
-    .use(categoryRouter)
-    .use(clientRouter)
-    .use(productRouter)
-    .use(orderRouter)
+	.use(userRouter)
+	.use(rolRouter)
+	.use(categoryRouter)
+	.use(clientRouter)
+	.use(productRouter)
+	.use(orderRouter)
+	.use(orderDetailRouter);

@@ -4,8 +4,9 @@ exports.deleteClient = exports.updateClient = exports.createClient = exports.get
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 async function getClients() {
-    const categories = await prisma.client.findMany();
-    return categories;
+    const clients = await prisma.client.findMany();
+    console.log({ clients, m: "hok" });
+    return clients;
 }
 exports.getClients = getClients;
 async function getClient(id) {

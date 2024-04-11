@@ -23,50 +23,49 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.clientController = void 0;
-const clientService = __importStar(require("../services/ClientService"));
+exports.ProductController = void 0;
+const ProductService = __importStar(require("../services/ProductService"));
 const responseHttp_1 = require("../utils/responseHttp");
 const catchedAsync_1 = require("../utils/catchedAsync");
 const errors_1 = require("../utils/errors");
-async function getClients(req, res) {
-    console.log({ m: "hok" });
-    const clients = await clientService.getClients();
-    (0, responseHttp_1.sendJsonResponse)(res, 400, clients, "all clients");
+async function getProducts(req, res) {
+    const Products = await ProductService.getProducts();
+    (0, responseHttp_1.sendJsonResponse)(res, 400, Products, "all Products");
 }
-async function getClient(req, res) {
+async function getProduct(req, res) {
     const id = req.params.id;
     if (!(/^\d+$/.test(id)))
         throw new errors_1.CustomError("el id tiene que ser un numero", 400);
-    const client = await clientService.getClient(+id);
-    if (!client)
-        throw new errors_1.CustomError("esta cliente no existe", 404);
-    return (0, responseHttp_1.sendJsonResponse)(res, 200, client, "cliente con exito");
+    const Product = await ProductService.getProduct(+id);
+    if (!Product)
+        throw new errors_1.CustomError("esta producto no existe", 404);
+    return (0, responseHttp_1.sendJsonResponse)(res, 200, Product, "producto con exito");
 }
-async function createClient(req, res) {
-    const clientCreated = await clientService.createClient(req.body);
-    return (0, responseHttp_1.sendJsonResponse)(res, 201, clientCreated, 'created client');
+async function createProduct(req, res) {
+    const ProductCreated = await ProductService.createProduct(req.body);
+    return (0, responseHttp_1.sendJsonResponse)(res, 201, ProductCreated, 'created Product');
 }
-async function updateClient(req, res) {
+async function updateProduct(req, res) {
     const id = req.params.id;
     if (!(/^\d+$/.test(id)))
         throw new errors_1.CustomError("el id tiene que ser un numero", 400);
     const idNumber = parseInt(id);
     const body = req.body;
-    const clientUpdated = await clientService.updateClient(idNumber, body);
-    return (0, responseHttp_1.sendJsonResponse)(res, 200, clientUpdated, "update client");
+    const ProductUpdated = await ProductService.updateProduct(idNumber, body);
+    return (0, responseHttp_1.sendJsonResponse)(res, 200, ProductUpdated, "update Product");
 }
-async function deleteClient(req, res) {
+async function deleteProduct(req, res) {
     let id = req.params.id;
     if (!(/^\d+$/.test(id)))
         throw new errors_1.CustomError("el id tiene que ser un numero", 400);
     const idNumber = parseInt(id);
-    const clientDeleted = await clientService.deleteClient(idNumber);
-    return (0, responseHttp_1.sendJsonResponse)(res, 200, clientDeleted, "delete client");
+    const ProductDeleted = await ProductService.deleteProduct(idNumber);
+    return (0, responseHttp_1.sendJsonResponse)(res, 200, ProductDeleted, "delete Product");
 }
-exports.clientController = {
-    getClients: (0, catchedAsync_1.catchedAsync)(getClients),
-    getClient: (0, catchedAsync_1.catchedAsync)(getClient),
-    createClient: (0, catchedAsync_1.catchedAsync)(createClient),
-    updateClient: (0, catchedAsync_1.catchedAsync)(updateClient),
-    deleteClient: (0, catchedAsync_1.catchedAsync)(deleteClient)
+exports.ProductController = {
+    getProducts: (0, catchedAsync_1.catchedAsync)(getProducts),
+    getProduct: (0, catchedAsync_1.catchedAsync)(getProduct),
+    createProduct: (0, catchedAsync_1.catchedAsync)(createProduct),
+    updateProduct: (0, catchedAsync_1.catchedAsync)(updateProduct),
+    deleteProduct: (0, catchedAsync_1.catchedAsync)(deleteProduct)
 };

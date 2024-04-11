@@ -23,50 +23,49 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.clientController = void 0;
-const clientService = __importStar(require("../services/ClientService"));
+exports.CategoryController = void 0;
+const CategoryService = __importStar(require("../services/CategoryService"));
 const responseHttp_1 = require("../utils/responseHttp");
 const catchedAsync_1 = require("../utils/catchedAsync");
 const errors_1 = require("../utils/errors");
-async function getClients(req, res) {
-    console.log({ m: "hok" });
-    const clients = await clientService.getClients();
-    (0, responseHttp_1.sendJsonResponse)(res, 400, clients, "all clients");
+async function getCategories(req, res) {
+    const categories = await CategoryService.getCategories();
+    (0, responseHttp_1.sendJsonResponse)(res, 400, categories, "all categories");
 }
-async function getClient(req, res) {
+async function getCategory(req, res) {
     const id = req.params.id;
     if (!(/^\d+$/.test(id)))
         throw new errors_1.CustomError("el id tiene que ser un numero", 400);
-    const client = await clientService.getClient(+id);
-    if (!client)
-        throw new errors_1.CustomError("esta cliente no existe", 404);
-    return (0, responseHttp_1.sendJsonResponse)(res, 200, client, "cliente con exito");
+    const category = await CategoryService.getCategory(+id);
+    if (!category)
+        throw new errors_1.CustomError("esta categoria no existe", 404);
+    return (0, responseHttp_1.sendJsonResponse)(res, 200, category, "categoria con exito");
 }
-async function createClient(req, res) {
-    const clientCreated = await clientService.createClient(req.body);
-    return (0, responseHttp_1.sendJsonResponse)(res, 201, clientCreated, 'created client');
+async function createCategory(req, res) {
+    const categoryCreated = await CategoryService.createCategory(req.body);
+    return (0, responseHttp_1.sendJsonResponse)(res, 201, categoryCreated, 'created category');
 }
-async function updateClient(req, res) {
+async function updateCategory(req, res) {
     const id = req.params.id;
     if (!(/^\d+$/.test(id)))
         throw new errors_1.CustomError("el id tiene que ser un numero", 400);
     const idNumber = parseInt(id);
     const body = req.body;
-    const clientUpdated = await clientService.updateClient(idNumber, body);
-    return (0, responseHttp_1.sendJsonResponse)(res, 200, clientUpdated, "update client");
+    const categoryUpdated = await CategoryService.updateCategory(idNumber, body);
+    return (0, responseHttp_1.sendJsonResponse)(res, 200, categoryUpdated, "update category");
 }
-async function deleteClient(req, res) {
+async function deleteCategory(req, res) {
     let id = req.params.id;
     if (!(/^\d+$/.test(id)))
         throw new errors_1.CustomError("el id tiene que ser un numero", 400);
     const idNumber = parseInt(id);
-    const clientDeleted = await clientService.deleteClient(idNumber);
-    return (0, responseHttp_1.sendJsonResponse)(res, 200, clientDeleted, "delete client");
+    const categoryDeleted = await CategoryService.deleteCategory(idNumber);
+    return (0, responseHttp_1.sendJsonResponse)(res, 200, categoryDeleted, "delete category");
 }
-exports.clientController = {
-    getClients: (0, catchedAsync_1.catchedAsync)(getClients),
-    getClient: (0, catchedAsync_1.catchedAsync)(getClient),
-    createClient: (0, catchedAsync_1.catchedAsync)(createClient),
-    updateClient: (0, catchedAsync_1.catchedAsync)(updateClient),
-    deleteClient: (0, catchedAsync_1.catchedAsync)(deleteClient)
+exports.CategoryController = {
+    getCategories: (0, catchedAsync_1.catchedAsync)(getCategories),
+    getCategory: (0, catchedAsync_1.catchedAsync)(getCategory),
+    createCategory: (0, catchedAsync_1.catchedAsync)(createCategory),
+    updateCategory: (0, catchedAsync_1.catchedAsync)(updateCategory),
+    deleteCategory: (0, catchedAsync_1.catchedAsync)(deleteCategory)
 };

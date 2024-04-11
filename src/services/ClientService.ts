@@ -1,10 +1,11 @@
-import { PrismaClient } from "@prisma/client";
+import { Client, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function getClients() {
-    const categories =await prisma.client.findMany()
-   return categories
+export async function getClients(){
+    const clients =await prisma.client.findMany()
+    console.log({clients,m:"hok"})
+   return clients
 }
 export async function getClient(id:number) {
     const newclient = await prisma.client.findFirst({

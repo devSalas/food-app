@@ -8,8 +8,14 @@ const express_1 = require("express");
 const user_1 = __importDefault(require("./user"));
 const rol_1 = __importDefault(require("./rol"));
 const category_1 = require("./category");
+const client_1 = require("./client");
+const product_1 = require("./product");
+const order_1 = require("./order");
 exports.routes = (0, express_1.Router)();
 exports.routes
     .use(user_1.default)
     .use(rol_1.default)
-    .use(category_1.categoryRouter);
+    .use(category_1.categoryRouter)
+    .use(client_1.clientRouter)
+    .use(product_1.productRouter)
+    .use(order_1.orderRouter);

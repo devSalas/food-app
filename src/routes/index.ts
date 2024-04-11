@@ -6,6 +6,7 @@ import { clientRouter } from "./client";
 import { productRouter } from "./product";
 import { orderRouter } from "./order";
 import { orderDetailRouter } from "./orderDetail";
+import { authRoute } from "./auth";
 
 export const routes = Router();
 
@@ -16,4 +17,5 @@ routes
 	.use(clientRouter)
 	.use(productRouter)
 	.use(orderRouter)
-	.use(orderDetailRouter);
+	.use(orderDetailRouter)
+	.use(authRoute);

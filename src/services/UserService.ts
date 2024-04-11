@@ -22,25 +22,16 @@ export async function createUser({
 	image: string;
 	address: string;
 }) {
-	const isexist = await prisma.user.findFirst({ where: { email } });
 
-<<<<<<< HEAD
-	if (isexist?.id) throw new Error("email is already registered");
-=======
     const isexist=await prisma.user.findFirst({where:{email}})
     
     if (isexist?.id) throw new CustomError("Email is already registered",400)
->>>>>>> 9f5301165a0298de077c117ad80751ea17112c62
 
 	const passwordEncrypt = await EncryptPassword({ password });
 
 	const rol = await getRolbyName({ name: "client" });
 
-<<<<<<< HEAD
-	if (!rol.id) throw new Error("Server Error");
-=======
     if (!rol.id) throw new CustomError("Server Error",500)
->>>>>>> 9f5301165a0298de077c117ad80751ea17112c62
 
 	const user = await prisma.user.create({
 		data: {
@@ -58,7 +49,7 @@ export async function createUser({
 export async function getUserbyName({ name }: { name: string }) {
 	const user = await prisma.user.findFirst({ where: { name } });
 
-	if (!user?.id) throw new Error("not found");
+	if (!user?.id) throw new CustomError("not found",404);
 
 	return user;
 }
@@ -66,7 +57,7 @@ export async function getUserbyName({ name }: { name: string }) {
 export async function getUserbyId({ id }: { id: number }) {
 	const user = await prisma.user.findFirst({ where: { id } });
 
-	if (!user?.id) throw new Error("not found");
+	if (!user?.id) throw new CustomError("not found",404);
 
 	return user;
 }
@@ -74,7 +65,7 @@ export async function getUserbyId({ id }: { id: number }) {
 export async function deleteUser({ id }: { id: number }) {
 	const user = await prisma.user.findFirst({ where: { id } });
 
-	if (!user?.id) throw new Error("not found");
+	if (!user?.id) throw new CustomError("not found",404);
 
 	return await prisma.user.delete({ where: { id } });
 }
@@ -94,7 +85,7 @@ export async function updateUser({
 }) {
 	const user = await prisma.user.findFirst({ where: { id } });
 
-	if (!user?.id) throw new Error("not found");
+	if (!user?.id) throw new CustomError("not found",404);
 
 	return await prisma.user.update({
 		where: { id },

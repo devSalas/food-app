@@ -23,7 +23,7 @@ export async function createUser(req: Request, res: Response) {
 
 export async function findUserbyId(req: Request, res: Response) {
     
-    const id=2
+    const {id}=req.body
 
     const user = await services.getUserbyId({id})
     sendJsonResponse(res,201,user,"user found")
@@ -39,14 +39,14 @@ export async function findUserbyName(req: Request, res: Response) {
 }
 
 export async function deleteUser(req: Request, res: Response) {
-	const id = 2;
+    const {id}=req.body
     const user = await services.deleteUser({id}) 
 
     sendJsonResponse(res,204,user,"user deleted")
 
 }
 export async function updateUser(req: Request, res: Response) {
-	const id = 2;
+    const {id}=req.body
 	const { address, email, image, name, password } = req.body;
 
 

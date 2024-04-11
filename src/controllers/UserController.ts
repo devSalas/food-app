@@ -1,4 +1,5 @@
 import { Request, Response } from "express"
+
 import  * as services from '../services/UserService'
 
 export async function getUsers(req: Request, res: Response) {

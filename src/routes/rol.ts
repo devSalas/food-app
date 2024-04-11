@@ -1,5 +1,5 @@
 import { Router } from "express";
-import  * as RolController from "../controllers/RolController";
+import   {RolController} from "../controllers/RolController";
 
 const rolRouter = Router()
 
@@ -7,7 +7,7 @@ const rolRouter = Router()
 rolRouter
         .get('/roles/',RolController.getRoles)
         .post('/roles/',RolController.createRol)
-        .get('/roles/:name',RolController.findRolbyName)
+        .get('/roles/:name',RolController.getRol)
         .delete('/roles/',RolController.deleteRol)
         .put('/roles/',RolController.updateRol);
     

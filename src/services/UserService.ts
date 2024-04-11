@@ -1,6 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { EncryptPassword } from "../utils/bcrypt/EncryptPassword";
 import { getRolbyName } from "./RolService";
+import { CustomError } from "../utils/errors";
 
 
 const prisma = new PrismaClient()
@@ -15,13 +16,13 @@ export async function createUser({email,password,name,address}:{email:string,pas
 
     const isexist=await prisma.user.findFirst({where:{email}})
     
-    if (isexist?.id) throw new Error("email is already registered")
+    if (isexist?.id) throw new CustomError("Email is already registered",400)
 
     const passwordEncrypt=await EncryptPassword({password})
 
     const rol=await getRolbyName({name:"client"})
 
-    if (!rol.id) throw new Error("Server Error")
+    if (!rol.id) throw new CustomError("Server Error",500)
 
     const user=await prisma.user.create({data:{address,email,password:passwordEncrypt,name,image:"",rol_id:rol.id}})
 

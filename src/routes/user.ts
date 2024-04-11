@@ -1,5 +1,5 @@
 import { Router } from "express";
-import  * as UserController from "../controllers/UserController";
+import  {UserController} from "../controllers/UserController";
 
 const userRouter = Router()
 
@@ -7,7 +7,7 @@ const userRouter = Router()
 userRouter
         .get('/users/',UserController.getUsers)
         .post('/users/',UserController.createUser)
-        .get('/users/:name',UserController.findUserbyName)
+        .get('/users/:name',UserController.getUser)
         .delete('/users/',UserController.deleteUser)
         .put('/users/',UserController.updateUser);
     

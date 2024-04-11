@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUser = exports.deleteUser = exports.getUserbyId = exports.getUserbyName = exports.createUser = exports.getUsers = void 0;
 const client_1 = require("@prisma/client");
-const EncryptPassword_1 = require("../utility/bcrypt/EncryptPassword");
+const EncryptPassword_1 = require("../utils/bcrypt/EncryptPassword");
 const RolService_1 = require("./RolService");
 const prisma = new client_1.PrismaClient();
 async function getUsers() {

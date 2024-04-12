@@ -18,8 +18,8 @@ export async function createRol({ name }: { name: string }) {
 	return user;
 }
 
-export async function getRolbyName({ name }: { name: string }) {
-	const user = await prisma.rol.findFirst({ where: { name } });
+export async function getRolbyId({ id }: { id: number }) {
+	const user = await prisma.rol.findFirst({ where: { id } });
 
     if (!user?.id) throw new CustomError("not found",404)
 

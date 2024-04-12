@@ -12,7 +12,7 @@ export async function getUsers(req: Request, res: Response) {
 }
 
 export async function createUser(req: Request, res: Response) {
-
+    
     const {address,email,image,name,password}=req.body
 
  
@@ -21,11 +21,13 @@ export async function createUser(req: Request, res: Response) {
     
 }
 
-export async function findUserbyId(req: Request, res: Response) {
+export async function getUser(req: Request, res: Response) {
     
-    const {id}=req.body
+    const {id}=req.params
+    const userid=+id
 
-    const user = await services.getUserbyId({id})
+
+    const user = await services.getUserbyId({id:userid})
     sendJsonResponse(res,201,user,"user found")
 
 }
@@ -39,18 +41,20 @@ export async function findUserbyName(req: Request, res: Response) {
 }
 
 export async function deleteUser(req: Request, res: Response) {
-    const {id}=req.body
-    const user = await services.deleteUser({id}) 
+    const {id}=req.params
+    const userid=+id
+    const user = await services.deleteUser({id:userid}) 
 
     sendJsonResponse(res,204,user,"user deleted")
 
 }
 export async function updateUser(req: Request, res: Response) {
-    const {id}=req.body
+    const {id}=req.params
+    const userid=+id
 	const { address, email, image, name, password } = req.body;
 
 
-    const user  = await services.updateUser({id,address,email,image,name,password})
+    const user  = await services.updateUser({id:userid,address,email,image,name,password})
     
     sendJsonResponse(res,200,user,"user updated")
 
@@ -59,7 +63,7 @@ export async function updateUser(req: Request, res: Response) {
 
 export const UserController = {
     getUsers: catchedAsync(getUsers),
-    getUser: catchedAsync(findUserbyName),
+    getUser: catchedAsync(getUser),
     createUser:catchedAsync(createUser),
     updateUser:catchedAsync(updateUser),
     deleteUser:catchedAsync(deleteUser)

@@ -4,11 +4,11 @@ import   {RolController} from "../controllers/RolController";
 const rolRouter = Router();
 
 rolRouter
-        .get('/roles/',RolController.getRoles)
-        .post('/roles/',RolController.createRol)
-        .get('/roles/:name',RolController.getRol)
-        .delete('/roles/',RolController.deleteRol)
-        .put('/roles/',RolController.updateRol);
+        .get('/roles/:id',RolController.getRoles)
+        .post('/roles/create',RolController.createRol)
+        .get('/roles/:id',RolController.getRol)
+        .delete('/roles/:id',RolController.deleteRol)
+        .put('/roles/:id',RolController.updateRol);
     
 
 export default rolRouter;

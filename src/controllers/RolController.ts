@@ -20,10 +20,11 @@ export async function createRol(req: Request, res: Response) {
 
 }
 
-export async function findRolbyName(req: Request, res: Response) {
+export async function getRol(req: Request, res: Response) {
     
-    const {name}=req.params
-    const rol = await services.getRolbyName({name})
+    const {id}=req.params
+    const rolid=+id
+    const rol = await services.getRolbyId({id:rolid})
     sendJsonResponse(res,200,rol,"rol found")
  
 
@@ -33,9 +34,10 @@ export async function findRolbyName(req: Request, res: Response) {
 
 export async function deleteRol(req: Request, res: Response) {
       
-    const {id}=req.body
+    const {id}=req.params
+    const rolid=+id
 
-    const rol = await services.deleteRol({id}) 
+    const rol = await services.deleteRol({id:rolid}) 
 
     sendJsonResponse(res,204,rol,"rol deleted")
 
@@ -43,17 +45,18 @@ export async function deleteRol(req: Request, res: Response) {
 
 export async function updateRol(req: Request, res: Response) {
     
-    const {id}=req.body
+    const {id}=req.params
+    const rolid=+id
     const {name}=req.body
 
-    const rol  = await services.updateRol({id,name})
+    const rol  = await services.updateRol({id:rolid,name})
     
     sendJsonResponse(res,200,rol,"rol updated")
 }
 
 export const RolController = {
     getRoles: catchedAsync(getRoles),
-    getRol: catchedAsync(findRolbyName),
+    getRol: catchedAsync(getRol),
     createRol:catchedAsync(createRol),
     updateRol:catchedAsync(updateRol),
     deleteRol:catchedAsync(deleteRol)

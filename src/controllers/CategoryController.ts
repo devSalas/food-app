@@ -7,7 +7,7 @@ import { CustomError } from "../utils/errors";
 async function getCategories(req: Request, res: Response) {
 	const categories = await CategoryService.getCategories();
 
-	sendJsonResponse(res, 400, categories, "all categories");
+	sendJsonResponse(res, 200, categories, "all categories");
 }
 
 async function getCategory(req: Request, res: Response) {

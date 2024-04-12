@@ -3,10 +3,11 @@ import type { Response, Request } from "express";
 import { sendJsonResponse } from "../utils/responseHttp";
 import { catchedAsync } from "../utils/catchedAsync";
 import { CustomError } from "../utils/errors";
+
 async function getProducts(req: Request, res: Response) {
 	const Products = await ProductService.getProducts();
 
-	sendJsonResponse(res, 400, Products, "all Products");
+	sendJsonResponse(res, 200, Products, "all Products");
 }
 
 async function getProduct(req: Request, res: Response) {

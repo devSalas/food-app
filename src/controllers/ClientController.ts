@@ -6,7 +6,7 @@ import { CustomError } from "../utils/errors";
 async function getClients(req: Request, res: Response) {
 	const clients = await clientService.getClients();
 
-	sendJsonResponse(res, 400, clients, "all clients");
+	sendJsonResponse(res, 200, clients, "all clients");
 }
 
 async function getClient(req: Request, res: Response) {

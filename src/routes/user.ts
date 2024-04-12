@@ -5,7 +5,7 @@ import  {UserController} from "../controllers/UserController";
 const userRouter = Router();
 
 userRouter
-        .get('/users/:id',UserController.getUsers)
+        .get('/users/',UserController.getUsers)
         .post('/users/create',UserController.createUser)
         .get('/users/:id',UserController.getUser)
         .delete('/users/:id',UserController.deleteUser)

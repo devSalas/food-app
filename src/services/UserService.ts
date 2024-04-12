@@ -6,7 +6,7 @@ import { CustomError } from "../utils/errors";
 const prisma = new PrismaClient();
 
 export async function getUsers() {
-	const users = await prisma.user.findMany();
+	const users = await prisma.user.findMany({select:{address:true,email:true,id:true,image:true,name:true,password:true,rol_id:true}});
 
 	return users;
 }
@@ -47,7 +47,7 @@ export async function createUser({
 	return user;
 }
 export async function getUserbyName({ name }: { name: string }) {
-	const user = await prisma.user.findFirst({ where: { name } });
+	const user = await prisma.user.findFirst({ where: { name },select:{address:true,email:true,id:true,image:true,name:true,password:true,rol_id:true} });
 
 	if (!user?.id) throw new CustomError("not found",404);
 
@@ -55,7 +55,7 @@ export async function getUserbyName({ name }: { name: string }) {
 }
 
 export async function getUserbyId({ id }: { id: number }) {
-	const user = await prisma.user.findFirst({ where: { id } });
+	const user = await prisma.user.findFirst({ where: { id },select:{address:true,email:true,id:true,image:true,name:true,password:true,rol_id:true} });
 
 	if (!user?.id) throw new CustomError("not found",404);
 

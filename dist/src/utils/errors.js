@@ -7,7 +7,7 @@ class CustomError extends Error {
         super(message);
         this.statusCode = statusCode;
         Object.setPrototypeOf(this, CustomError.prototype); // Restaurar el prototipo
-        this.name = 'ClientError'; // Establecer el nombre del error
+        this.name = "ClientError"; // Establecer el nombre del error
     }
 }
 exports.CustomError = CustomError;

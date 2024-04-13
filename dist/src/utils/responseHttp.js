@@ -5,7 +5,7 @@ function sendJsonResponse(res, statusCode, data, message) {
     res.status(statusCode).json({
         error: false,
         data,
-        message
+        message,
     });
 }
 exports.sendJsonResponse = sendJsonResponse;

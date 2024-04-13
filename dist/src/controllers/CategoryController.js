@@ -30,35 +30,36 @@ const catchedAsync_1 = require("../utils/catchedAsync");
 const errors_1 = require("../utils/errors");
 async function getCategories(req, res) {
     const categories = await CategoryService.getCategories();
-    (0, responseHttp_1.sendJsonResponse)(res, 400, categories, "all categories");
+    (0, responseHttp_1.sendJsonResponse)(res, 200, categories, "all categories");
 }
 async function getCategory(req, res) {
     const id = req.params.id;
-    if (!(/^\d+$/.test(id)))
+    if (!/^\d+$/.test(id))
         throw new errors_1.CustomError("el id tiene que ser un numero", 400);
-    const category = await CategoryService.getCategory(+id);
+    const idNumber = Number.parseInt(id);
+    const category = await CategoryService.getCategory(idNumber);
     if (!category)
         throw new errors_1.CustomError("esta categoria no existe", 404);
     return (0, responseHttp_1.sendJsonResponse)(res, 200, category, "categoria con exito");
 }
 async function createCategory(req, res) {
     const categoryCreated = await CategoryService.createCategory(req.body);
-    return (0, responseHttp_1.sendJsonResponse)(res, 201, categoryCreated, 'created category');
+    return (0, responseHttp_1.sendJsonResponse)(res, 201, categoryCreated, "created category");
 }
 async function updateCategory(req, res) {
     const id = req.params.id;
-    if (!(/^\d+$/.test(id)))
+    if (!/^\d+$/.test(id))
         throw new errors_1.CustomError("el id tiene que ser un numero", 400);
-    const idNumber = parseInt(id);
+    const idNumber = Number.parseInt(id);
     const body = req.body;
     const categoryUpdated = await CategoryService.updateCategory(idNumber, body);
     return (0, responseHttp_1.sendJsonResponse)(res, 200, categoryUpdated, "update category");
 }
 async function deleteCategory(req, res) {
-    let id = req.params.id;
-    if (!(/^\d+$/.test(id)))
+    const id = req.params.id;
+    if (!/^\d+$/.test(id))
         throw new errors_1.CustomError("el id tiene que ser un numero", 400);
-    const idNumber = parseInt(id);
+    const idNumber = Number.parseInt(id);
     const categoryDeleted = await CategoryService.deleteCategory(idNumber);
     return (0, responseHttp_1.sendJsonResponse)(res, 200, categoryDeleted, "delete category");
 }
@@ -67,5 +68,5 @@ exports.CategoryController = {
     getCategory: (0, catchedAsync_1.catchedAsync)(getCategory),
     createCategory: (0, catchedAsync_1.catchedAsync)(createCategory),
     updateCategory: (0, catchedAsync_1.catchedAsync)(updateCategory),
-    deleteCategory: (0, catchedAsync_1.catchedAsync)(deleteCategory)
+    deleteCategory: (0, catchedAsync_1.catchedAsync)(deleteCategory),
 };

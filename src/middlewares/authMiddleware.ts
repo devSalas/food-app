@@ -1,6 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
 import { jwtDecode } from "../utils/jwt/jwt";
-import { CustomError } from "../utils/errors";
 import { sendJsonResponse } from "../utils/responseHttp";
 
 export async function authMiddleware(req:Request,res:Response,next:NextFunction) {

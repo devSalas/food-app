@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { validateProductPartial } from "../schemas/product";
+import { validateProduct, validateProductPartial } from "../schemas/product";
 import * as ProductService from "../services/ProductService";
 import { catchedAsync } from "../utils/catchedAsync";
 import { CustomError } from "../utils/errors";
@@ -22,8 +22,14 @@ async function getProduct(req: Request, res: Response) {
 }
 
 async function createProduct(req: Request, res: Response) {
-  const product = await ProductService.createProduct(req.body);
-  return sendJsonResponse(res, 201, product, "Producto creado");
+  const result = validateProduct(req.body);
+
+  if (result.success) {
+    const product = await ProductService.createProduct(result.data);
+    return sendJsonResponse(res, 201, product, "Producto creado");
+  }
+
+  throw new CustomError("Error al crear un producto", 404);
 }
 
 async function updateProduct(req: Request, res: Response) {

@@ -14,6 +14,5 @@ export const validateProduct = (object: any) => {
 };
 
 export const validateProductPartial = (object: any) => {
-  const shoeSchemaPartial = productSchema.partial();
-  return shoeSchemaPartial.safeParse(object);
+  return productSchema.partial().safeParse(object);
 };

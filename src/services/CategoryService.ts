@@ -1,46 +1,44 @@
-import { PrismaClient } from "@prisma/client";
-import type { Category } from "../types/category";
+import type { Category } from "../schemas/category";
 import { CustomError } from "../utils/errors";
-
-const prisma = new PrismaClient();
+import prisma from "../utils/prismaClient";
 
 export async function getCategories() {
   const categories = await prisma.category.findMany();
   return categories;
 }
+
 export async function getCategory(id: number) {
-  const newCategory = await prisma.category.findFirst({
+  const category = await prisma.category.findFirst({
     where: {
       id,
     },
   });
-  return newCategory;
+  return category;
 }
-/* crear categoria */
-export async function createCategory(category: Category) {
-  const newName = category.name;
 
-  const getNewName = await prisma.category.findFirst({
-    where: { name: newName },
+export async function createCategory(data: Category) {
+  const categoryFound = await prisma.category.findFirst({
+    where: { name: data.name },
   });
 
-  if (getNewName !== null)
+  if (categoryFound !== null)
     throw new CustomError("Esta categoria ya existe", 400);
 
-  const categoryCreated = await prisma.category.create({ data: category });
-  return categoryCreated;
+  const category = await prisma.category.create({ data });
+  return category;
 }
 
-export async function updateCategory(id: number, category: Category) {
-  const categoryUpdated = await prisma.category.update({
-    where: { id: id },
-    data: { ...category },
+export async function updateCategory(id: number, data: Partial<Category>) {
+  const category = await prisma.category.update({
+    where: { id },
+    data,
   });
-  return categoryUpdated;
+  return category;
 }
+
 export async function deleteCategory(id: number) {
-  const categoryDeleted = await prisma.category.delete({
-    where: { id: id },
+  const category = await prisma.category.delete({
+    where: { id },
   });
-  return categoryDeleted;
+  return category;
 }

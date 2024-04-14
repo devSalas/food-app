@@ -1,50 +1,47 @@
 import type { Request, Response } from "express";
+import { validateProductPartial } from "../schemas/product";
 import * as ProductService from "../services/ProductService";
 import { catchedAsync } from "../utils/catchedAsync";
 import { CustomError } from "../utils/errors";
 import { sendJsonResponse } from "../utils/responseHttp";
+import { verificarId } from "../utils/verificarId";
 
-async function getProducts(req: Request, res: Response) {
-  const Products = await ProductService.getProducts();
-
-  sendJsonResponse(res, 200, Products, "all Products");
+async function getProducts(_req: Request, res: Response) {
+  const products = await ProductService.getProducts();
+  sendJsonResponse(res, 200, products, "all Products");
 }
 
 async function getProduct(req: Request, res: Response) {
-  const id = req.params.id;
+  const id = verificarId(req.params.id);
 
-  if (!/^\d+$/.test(id))
-    throw new CustomError("el id tiene que ser un numero", 400);
+  const product = await ProductService.getProduct(id);
 
-  const Product = await ProductService.getProduct(+id);
+  if (!product) throw new CustomError("Este producto no existe", 404);
 
-  if (!Product) throw new CustomError("esta producto no existe", 404);
-
-  return sendJsonResponse(res, 200, Product, "producto con exito");
+  return sendJsonResponse(res, 200, product, "Producto encontrado");
 }
 
 async function createProduct(req: Request, res: Response) {
-  const ProductCreated = await ProductService.createProduct(req.body);
-  return sendJsonResponse(res, 201, ProductCreated, "created Product");
+  const product = await ProductService.createProduct(req.body);
+  return sendJsonResponse(res, 201, product, "Producto creado");
 }
 
 async function updateProduct(req: Request, res: Response) {
-  const id = req.params.id;
-  if (!/^\d+$/.test(id))
-    throw new CustomError("el id tiene que ser un numero", 400);
-  const idNumber = Number.parseInt(id);
-  const body = req.body;
+  const id = verificarId(req.params.id);
+  const result = validateProductPartial(req.body);
 
-  const ProductUpdated = await ProductService.updateProduct(idNumber, body);
-  return sendJsonResponse(res, 200, ProductUpdated, "update Product");
+  if (result.success) {
+    const product = await ProductService.updateProduct(id, result.data);
+    return sendJsonResponse(res, 200, product, "Producto actualizado");
+  }
+
+  throw new CustomError("Error al actulizar", 404);
 }
-async function deleteProduct(req: Request, res: Response) {
-  const id = req.params.id;
-  if (!/^\d+$/.test(id))
-    throw new CustomError("el id tiene que ser un numero", 400);
-  const idNumber = Number.parseInt(id);
 
-  const ProductDeleted = await ProductService.deleteProduct(idNumber);
+async function deleteProduct(req: Request, res: Response) {
+  const id = verificarId(req.params.id);
+
+  const ProductDeleted = await ProductService.deleteProduct(id);
   return sendJsonResponse(res, 200, ProductDeleted, "delete Product");
 }
 

@@ -1,35 +1,36 @@
-import { PrismaClient } from "@prisma/client";
-import type { Product } from "../types/product";
-
-const prisma = new PrismaClient();
+import type { Product } from "../schemas/product";
+import prisma from "../utils/prismaClient";
 
 export async function getProducts() {
   const products = await prisma.product.findMany();
   return products;
 }
+
 export async function getProduct(id: number) {
-  const newProduct = await prisma.product.findFirst({
+  const productFound = await prisma.product.findFirst({
     where: {
       id,
     },
   });
-  return newProduct;
-}
-export async function createProduct(Product: Product) {
-  const ProductCreated = await prisma.product.create({ data: Product });
-  return ProductCreated;
+  return productFound;
 }
 
-export async function updateProduct(id: number, Product: Product) {
-  const ProductUpdated = await prisma.product.update({
-    where: { id: id },
-    data: { ...Product },
-  });
-  return ProductUpdated;
+export async function createProduct(data: Product) {
+  const productCreated = await prisma.product.create({ data });
+  return productCreated;
 }
+
+export async function updateProduct(id: number, data: Partial<Product>) {
+  const productUpdated = await prisma.product.update({
+    where: { id },
+    data,
+  });
+  return productUpdated;
+}
+
 export async function deleteProduct(id: number) {
-  const ProductDeleted = await prisma.product.delete({
+  const productDeleted = await prisma.product.delete({
     where: { id: id },
   });
-  return ProductDeleted;
+  return productDeleted;
 }

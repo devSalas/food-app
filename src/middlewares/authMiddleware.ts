@@ -1,5 +1,4 @@
 import type { NextFunction, Request, Response } from "express";
-import { CustomError } from "../utils/errors";
 import { jwtDecode } from "../utils/jwt/jwt";
 import { sendJsonResponse } from "../utils/responseHttp";
 

@@ -1,4 +1,4 @@
-import type { NextFunction, Request, Response } from "express";
+import type type { NextFunction, Request, Response } from "express";
 
 export const catchedAsync = (
   fn: (req: Request, res: Response) => Promise<any>

@@ -1,7 +1,7 @@
-import express, { NextFunction, Request, Response } from "express";
+import cors from "cors";
+import express from "express";
 import { routes } from "./routes";
 import { errorHandler } from "./utils/errorHandler";
-import cors from "cors";
 
 const app = express();
 

@@ -1,9 +1,6 @@
-import {  Router } from "express";
+import { Router } from "express";
 import { SignInController } from "../controllers/authController";
 
+export const authRoute = Router();
 
-export const authRoute=Router()
-
-authRoute
-        .post('/signin',SignInController.SignIn)
-
+authRoute.post("/signin", SignInController.SignIn);

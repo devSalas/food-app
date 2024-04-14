@@ -1,14 +1,14 @@
-import { Response } from "express";
+import type { Response } from "express";
 
 export function sendJsonResponse(
-	res: Response,
-	statusCode: number,
-	data: any,
-	message: string,
+  res: Response,
+  statusCode: number,
+  data: any,
+  message: string
 ) {
-	res.status(statusCode).json({
-		error: false,
-		data,
-		message,
-	});
+  res.status(statusCode).json({
+    error: false,
+    data,
+    message,
+  });
 }

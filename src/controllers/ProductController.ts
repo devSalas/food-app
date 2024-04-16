@@ -5,7 +5,12 @@ import { catchedAsync } from "../utils/catchedAsync";
 import { CustomError } from "../utils/errors";
 
 async function getProducts(req: Request, res: Response) {
-	const Products = await ProductService.getProducts();
+
+	const {name,price}=req.query
+	const filterPrice=Number(price)?Number(price):0
+	const FilterName=!name?'':name.toLowerCase()
+	
+	const Products = await ProductService.getProducts(FilterName,filterPrice);
 
 	sendJsonResponse(res, 200, Products, "all Products");
 }

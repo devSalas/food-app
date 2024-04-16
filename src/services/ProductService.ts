@@ -3,8 +3,9 @@ import { Product } from "../types/product";
 
 const prisma = new PrismaClient();
 
-export async function getProducts() {
-	const products = await prisma.product.findMany();
+export async function getProducts(name:string,price:number) {
+	
+	const products = await prisma.product.findMany({where:{name:{startsWith:name},price:{gte:price}}});
 	return products;
 }
 export async function getProduct(id: number) {

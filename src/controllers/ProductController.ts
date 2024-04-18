@@ -7,14 +7,15 @@ import { sendJsonResponse } from "../utils/responseHttp";
 import { verificarId } from "../utils/verificarId";
 
 async function getProducts(req: Request, res: Response) {
+  const { name, price } = req.query;
+  const filterPrice = Number(price) || 0;
 
-	const {name,price}=req.query
-	const filterPrice=Number(price)?Number(price):0
-	const FilterName=!name?'':name.toLowerCase()
-	
-	const Products = await ProductService.getProducts(FilterName,filterPrice);
+  // Convertir el nombre a minúsculas o establecerlo como una cadena vacía si no está definido
+  const filterName = name ? String(name).toLowerCase() : "";
 
-	sendJsonResponse(res, 200, Products, "all Products");
+  const Products = await ProductService.getProducts(filterName, filterPrice);
+
+  sendJsonResponse(res, 200, Products, "all Products");
 }
 
 async function getProduct(req: Request, res: Response) {

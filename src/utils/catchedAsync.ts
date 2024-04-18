@@ -1,9 +1,9 @@
-import type { Request, Response, NextFunction } from "express";
+import type { NextFunction, Request, Response } from "express";
 
 export const catchedAsync = (
-	fn: (req: Request, res: Response) => Promise<any>,
+  fn: (req: Request, res: Response) => Promise<any>
 ) => {
-	return (req: Request, res: Response, next: NextFunction) => {
-		fn(req, res).catch((err) => next(err));
-	};
+  return (req: Request, res: Response, next: NextFunction) => {
+    fn(req, res).catch((err) => next(err));
+  };
 };

@@ -11,7 +11,7 @@
 		"build": "npx tsc",
 		"start": "node dist/src/index.js",
 		"dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/index.js\"",
-		"lint": "npx @biomejs/biome format --write  ."
+		"lint": "npx @biomejs/biome format --write ./src"
 	},
 	"dependencies": {
 		"@prisma/client": "^5.12.1",
@@ -21,7 +21,8 @@
 		"cors": "^2.8.5",
 		"express": "^4.19.2",
 		"jsonwebtoken": "^9.0.2",
-		"typescript": "^5.4.5"
+		"typescript": "^5.4.5",
+		"zod": "^3.22.4"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.6.4",

@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { EncryptPassword } from "../utils/bcrypt/EncryptPassword";
-import { getRolbyName } from "./RolService";
 import { CustomError } from "../utils/errors";
+import { getRolbyName } from "./RolService";
 
 const prisma = new PrismaClient();
 

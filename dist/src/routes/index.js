@@ -13,8 +13,10 @@ const product_1 = require("./product");
 const order_1 = require("./order");
 const orderDetail_1 = require("./orderDetail");
 const auth_1 = require("./auth");
+const testImage_1 = require("./testImage");
 exports.routes = (0, express_1.Router)();
 exports.routes
+    .get("/image", testImage_1.image)
     .use(user_1.default)
     .use(rol_1.default)
     .use(category_1.categoryRouter)

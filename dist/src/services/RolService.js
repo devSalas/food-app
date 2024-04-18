@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateRol = exports.deleteRol = exports.getRolbyId = exports.createRol = exports.getRoles = void 0;
+exports.updateRol = exports.deleteRol = exports.getRolbyName = exports.getRolbyId = exports.createRol = exports.getRoles = void 0;
 const client_1 = require("@prisma/client");
 const errors_1 = require("../utils/errors");
 const prisma = new client_1.PrismaClient();
@@ -24,6 +24,13 @@ async function getRolbyId({ id }) {
     return user;
 }
 exports.getRolbyId = getRolbyId;
+async function getRolbyName({ name }) {
+    const user = await prisma.rol.findFirst({ where: { name } });
+    if (!user?.id)
+        throw new errors_1.CustomError("not found", 404);
+    return user;
+}
+exports.getRolbyName = getRolbyName;
 async function deleteRol({ id }) {
     const user = await prisma.rol.findFirst({ where: { id } });
     if (!user?.id)

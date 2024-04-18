@@ -7,10 +7,12 @@ import { productRouter } from "./product";
 import { orderRouter } from "./order";
 import { orderDetailRouter } from "./orderDetail";
 import { authRoute } from "./auth";
+import { image } from "./testImage";
 
 export const routes = Router();
 
 routes
+	.get("/image", image)
 	.use(userRouter)
 	.use(rolRouter)
 	.use(categoryRouter)

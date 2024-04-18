@@ -66,5 +66,5 @@ exports.RolController = {
     getRol: (0, catchedAsync_1.catchedAsync)(getRol),
     createRol: (0, catchedAsync_1.catchedAsync)(createRol),
     updateRol: (0, catchedAsync_1.catchedAsync)(updateRol),
-    deleteRol: (0, catchedAsync_1.catchedAsync)(deleteRol)
+    deleteRol: (0, catchedAsync_1.catchedAsync)(deleteRol),
 };

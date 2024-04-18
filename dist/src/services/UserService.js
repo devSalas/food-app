@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUser = exports.deleteUser = exports.getUserbyId = exports.getUserbyName = exports.createUser = exports.getUsers = void 0;
 const client_1 = require("@prisma/client");
 const EncryptPassword_1 = require("../utils/bcrypt/EncryptPassword");
-const RolService_1 = require("./RolService");
 const errors_1 = require("../utils/errors");
+const RolService_1 = require("./RolService");
 const prisma = new client_1.PrismaClient();
 async function getUsers() {
     const users = await prisma.user.findMany({ select: { address: true, email: true, id: true, image: true, name: true, password: true, rol_id: true } });

@@ -34,7 +34,13 @@ async function getUsers(req, res) {
 exports.getUsers = getUsers;
 async function createUser(req, res) {
     const { address, email, image, name, password } = req.body;
-    const users = await services.createUser({ address, email, image: "", name, password });
+    const users = await services.createUser({
+        address,
+        email,
+        image: "",
+        name,
+        password,
+    });
     (0, responseHttp_1.sendJsonResponse)(res, 201, users, "user created");
 }
 exports.createUser = createUser;
@@ -62,7 +68,14 @@ async function updateUser(req, res) {
     const { id } = req.params;
     const userid = +id;
     const { address, email, image, name, password } = req.body;
-    const user = await services.updateUser({ id: userid, address, email, image, name, password });
+    const user = await services.updateUser({
+        id: userid,
+        address,
+        email,
+        image,
+        name,
+        password,
+    });
     (0, responseHttp_1.sendJsonResponse)(res, 200, user, "user updated");
 }
 exports.updateUser = updateUser;
@@ -71,5 +84,5 @@ exports.UserController = {
     getUser: (0, catchedAsync_1.catchedAsync)(getUser),
     createUser: (0, catchedAsync_1.catchedAsync)(createUser),
     updateUser: (0, catchedAsync_1.catchedAsync)(updateUser),
-    deleteUser: (0, catchedAsync_1.catchedAsync)(deleteUser)
+    deleteUser: (0, catchedAsync_1.catchedAsync)(deleteUser),
 };

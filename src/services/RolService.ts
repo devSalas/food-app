@@ -17,11 +17,6 @@ export async function createRol({ name }: { name: string }) {
 
 	const user = await prisma.rol.create({ data: { name } });
 
-  if (isexist !== null)
-    throw new CustomError("name is already registered", 400);
-
-  const user = await prisma.rol.create({ data: { name } });
-
   return user;
 }
 

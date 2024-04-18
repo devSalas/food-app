@@ -35,8 +35,8 @@ model Product {
   name          String
   image         String
   price         Decimal
-  description   String
-  ingredients   String
+  description   String          @default("no definido")
+  ingredients   String           @default("no definido")
   details_order Details_Order[]
   category      Category        @relation(fields: [category_id], references: [id])
   category_id   Int

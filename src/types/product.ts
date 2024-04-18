@@ -6,4 +6,6 @@ export interface Product {
   category_id: number;
   createdAt?: Date;
   updateAt?: Date;
+  description: string
+  ingredients: string;
 }

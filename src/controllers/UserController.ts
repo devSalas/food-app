@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
 
 import * as services from "../services/UserService";
-<<<<<<< HEAD
 import { sendJsonResponse } from "../utils/responseHttp";
 import { catchedAsync } from "../utils/catchedAsync";
 
@@ -29,35 +28,6 @@ export async function getUser(req: Request, res: Response) {
 
 	const user = await services.getUserbyId({ id: userid });
 	sendJsonResponse(res, 201, user, "user found");
-=======
-import { catchedAsync } from "../utils/catchedAsync";
-import { sendJsonResponse } from "../utils/responseHttp";
-
-export async function getUsers(req: Request, res: Response) {
-  const users = await services.getUsers();
-  sendJsonResponse(res, 200, users, "all users");
-}
-
-export async function createUser(req: Request, res: Response) {
-  const { address, email, image, name, password } = req.body;
-
-  const users = await services.createUser({
-    address,
-    email,
-    image: "",
-    name,
-    password,
-  });
-  sendJsonResponse(res, 201, users, "user created");
-}
-
-export async function getUser(req: Request, res: Response) {
-  const { id } = req.params;
-  const userid = +id;
-
-  const user = await services.getUserbyId({ id: userid });
-  sendJsonResponse(res, 201, user, "user found");
->>>>>>> 4287029b7c636487dea716fd640b5240932dae4b
 }
 export async function findUserbyName(req: Request, res: Response) {
   const { name } = req.params;

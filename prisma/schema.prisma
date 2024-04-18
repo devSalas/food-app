@@ -15,9 +15,9 @@ datasource db {
 }
 
 model Client {
-  id        Int        @id @default(autoincrement())
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   name      String
   image     String
   address   String?
@@ -25,7 +25,7 @@ model Client {
   email     String
   password  String
   orders    Order[]
-  Favorite  Favorite[]
+  favorite Favorite[]
 }
 
 model Product {
@@ -35,20 +35,12 @@ model Product {
   name          String
   image         String
   price         Decimal
+  description   String
+  ingredients   String
   details_order Details_Order[]
   category      Category        @relation(fields: [category_id], references: [id])
   category_id   Int
-  description   String
-  ingredient    String
-  Favorite Favorite[]
-}
-
-model Favorite {
-  id         Int    @id @default(autoincrement())
-  client     Client @relation(fields: [client_id], references: [id])
-  client_id  Int
-  product    Product @relation(fields: [product_id],references: [id])
-  product_id Int
+    favorite Favorite[]
 }
 
 model Order {
@@ -135,4 +127,12 @@ model Rol {
   updatedAt DateTime @updatedAt
   name      String
   user      User[]
+}
+
+model Favorite{
+  id  Int @id @default(autoincrement())
+  client Client @relation(fields: [client_id],references: [id])
+  client_id Int
+  product Product @relation(fields: [product_id],references: [id])
+  product_id Int
 }

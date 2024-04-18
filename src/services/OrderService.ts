@@ -1,9 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-<<<<<<< HEAD
 import type{ Order } from "../types/order";
-=======
-import type { Order } from "../types/order";
->>>>>>> 4287029b7c636487dea716fd640b5240932dae4b
 
 const prisma = new PrismaClient();
 

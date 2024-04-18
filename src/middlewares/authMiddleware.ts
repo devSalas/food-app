@@ -25,3 +25,4 @@ export async function authMiddleware(
     return sendJsonResponse(res, 401, null, "token not found or expired");
   }
 }
+

@@ -7,6 +7,7 @@ import { orderDetailRouter } from "./orderDetail";
 import { productRouter } from "./product";
 import rolRouter from "./rol";
 import userRouter from "./user";
+import { favoriteRoute } from "./favorite";
 
 export const routes = Router();
 
@@ -18,4 +19,5 @@ routes
   .use(productRouter)
   .use(orderRouter)
   .use(orderDetailRouter)
-  .use(authRoute);
+  .use(authRoute)
+  .use(favoriteRoute);

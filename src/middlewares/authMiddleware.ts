@@ -15,7 +15,7 @@ export async function authMiddleware(
   const token = header.split(" ")[1];
 
   try {
-    const { id: payload } = await jwtDecode({ token });
+    const { id: payload }: any = await jwtDecode({ token });
     if (payload === id) {
       next();
     } else {
@@ -25,4 +25,3 @@ export async function authMiddleware(
     return sendJsonResponse(res, 401, null, "token not found or expired");
   }
 }
-

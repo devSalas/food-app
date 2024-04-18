@@ -28,3 +28,6 @@ export async function SignInService({
 
   return { token, id: userExist.id };
 }
+
+const nombre = "carlita";
+console.log(nombre);

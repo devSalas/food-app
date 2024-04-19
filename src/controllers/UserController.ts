@@ -20,7 +20,7 @@ export async function createUser(req: Request, res: Response) {
 }
 
 export async function getUser(req: Request, res: Response) {
-  const { id } = req.params;
+  const { id } = req;
   const userid = +id;
 
   const user = await services.getUserbyId({ id: userid });
@@ -35,14 +35,13 @@ export async function findUserbyName(req: Request, res: Response) {
 }
 
 export async function deleteUser(req: Request, res: Response) {
-  const { id } = req.params;
+  const { id } = req;
   const userid = +id;
   const user = await services.deleteUser({ id: userid });
 
   sendJsonResponse(res, 204, user, "user deleted");
 }
 export async function updateUser(req: Request, res: Response) {
-  /* const { id } = req.params; */
   const {id}=req
   const userid = +id;
   const {name} = req.body;

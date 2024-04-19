@@ -10,13 +10,10 @@ export async function getUsers(req: Request, res: Response) {
 }
 
 export async function createUser(req: Request, res: Response) {
-  const { address, email, image, name, password } = req.body;
+  const { email, password } = req.body;
 
   const users = await services.createUser({
-    address,
     email,
-    image: "",
-    name,
     password,
   });
   sendJsonResponse(res, 201, users, "user created");

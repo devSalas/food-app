@@ -23,14 +23,9 @@ export async function getUsers() {
 export async function createUser({
   email,
   password,
-  name,
-  address,
 }: {
   email: string;
   password: string;
-  name: string;
-  image: string;
-  address: string;
 }) {
   const isexist = await prisma.user.findFirst({ where: { email } });
 
@@ -42,13 +37,16 @@ export async function createUser({
 
   if (!rol.id) throw new CustomError("Server Error", 500);
 
+  const name=email.split(' ')[0]
+  const image=''
+
   const user = await prisma.user.create({
     data: {
-      address,
+      address:'',
       email,
       password: passwordEncrypt,
       name,
-      image: "",
+      image,
       rol_id: rol.id,
     },
   });

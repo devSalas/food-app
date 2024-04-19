@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import { jwtDecode } from "../utils/jwt/jwt";
 import { sendJsonResponse } from "../utils/responseHttp";
 
+
 export async function authMiddleware(
   req: Request,
   res: Response,
@@ -17,6 +18,7 @@ export async function authMiddleware(
   try {
     const { id: payload }: any = await jwtDecode({ token });
     if (payload === id) {
+      req.id=id 
       next();
     } else {
       throw new Error("");

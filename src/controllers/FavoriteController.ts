@@ -16,17 +16,17 @@ async function postFavoritesController(req:Request,res:Response) {
     const {id}=req
     const {productid}=req.params
     const product_id=+productid
-    const client_id=+id
 
-    const favorites=await FavoriteService.postFavorite({client_id,product_id})
+
+    const favorites=await FavoriteService.postFavorite({client_id:id,product_id})
     sendJsonResponse(res, 201, favorites, "favorites craete");
 }
 async function deleteFavoritesController(req:Request,res:Response) {
     const {id}=req
     const {productid}=req.params
     const product_id=+productid
-    const client_id=+id
-    const favorites=await FavoriteService.deleteFavorite({client_id,product_id})
+
+    const favorites=await FavoriteService.deleteFavorite({client_id:id,product_id})
     sendJsonResponse(res, 204, favorites, "favorite delete");
 }
 

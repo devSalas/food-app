@@ -21,9 +21,8 @@ export async function createUser(req: Request, res: Response) {
 
 export async function getUser(req: Request, res: Response) {
   const { id } = req;
-  const userid = +id;
 
-  const user = await services.getUserbyId({ id: userid });
+  const user = await services.getUserbyId({ id });
   sendJsonResponse(res, 201, user, "user found");
 }
 export async function findUserbyName(req: Request, res: Response) {
@@ -43,13 +42,12 @@ export async function deleteUser(req: Request, res: Response) {
 }
 export async function updateUser(req: Request, res: Response) {
   const {id}=req
-  const userid = +id;
   const {name} = req.body;
   const file=req.file
   const image =file?.buffer?file.buffer:""
 
   const user = await services.updateUser({
-    id: userid,
+    id,
     buffer:image,
     name,
   });
@@ -60,11 +58,10 @@ export async function updateUser(req: Request, res: Response) {
 export async function udpatePassword(req:Request,res:Response) {
   
   const {id}=req
-  const userid = +id;
   const {oldPassword,newPassword} = req.body;
   
 
-  const user= await services.updatePassword({id:userid,oldPassword,newPassword})
+  const user= await services.updatePassword({id,oldPassword,newPassword})
   sendJsonResponse(res, 200, user, "user updated");
 }
 

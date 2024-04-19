@@ -15,14 +15,14 @@ export async function SignInService({
   const userExist = await prisma.user.findFirst({ where: { email } });
   
   if (!userExist?.id)
-    throw new CustomError("Email or password not exist", 401);
+    throw new CustomError("Email or password is incorrect", 401);
   
   const passwordVerify = await decodePassword({
     password,
     passwordEncripted: userExist.password,
   });
   
-  if (!passwordVerify) throw new CustomError("Email or paswrod not exist", 401);
+  if (!passwordVerify) throw new CustomError("Email or password is incorrect", 401);
 
   const token = await jwtSign({ id: userExist.id });
 

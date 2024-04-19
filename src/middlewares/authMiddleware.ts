@@ -16,7 +16,7 @@ export async function authMiddleware(
   try {
       const { id: payload }: any = await jwtDecode({ token });
       if (id!==payload) return sendJsonResponse(res,403,null,'Forbidden')
-      req.id=payload 
+      req.id=Number(payload) 
       next();
 
   } catch (error) {

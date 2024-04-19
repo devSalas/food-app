@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
-import { EncryptPassword } from "../utils/bcrypt/EncryptPassword";
+import { EncryptPassword, decodePassword } from "../utils/bcrypt/EncryptPassword";
 import { CustomError } from "../utils/errors";
 import { getRolbyName } from "./RolService";
+import { UploadImage } from "../utils/cloudinary/UploadImage";
 
 const prisma = new PrismaClient();
 
@@ -101,24 +102,45 @@ export async function deleteUser({ id }: { id: number }) {
 }
 export async function updateUser({
   id,
-  email,
-  password,
   name,
-  address,
+  buffer
 }: {
   id: number;
-  email: string;
-  password: string;
   name: string;
-  image: string;
-  address: string;
+  buffer: any;
 }) {
   const user = await prisma.user.findFirst({ where: { id } });
 
   if (!user?.id) throw new CustomError("not found", 404);
 
+  let image:any
+    if (buffer) {
+        image=await UploadImage({buffer})
+        if (!image) throw new Error("Error image")
+    }
+
+
+
   return await prisma.user.update({
     where: { id },
-    data: { name, email, password, address },
+    data: { name,image:!image?buffer:image},
   });
+}
+
+
+export async function updatePassword({id,newPassword,oldPassword}:{id:number,oldPassword:string,newPassword:string}) {
+
+  const existUser=await prisma.user.findFirst({where:{id}})
+
+  if (!existUser?.id) throw new CustomError("user not found",404)
+
+  const verifyPassword= await decodePassword({passwordEncripted:existUser.password,password:oldPassword})
+
+  if (!verifyPassword) throw new CustomError("Password incorrect",403);
+
+  const newPasswordHashed=await EncryptPassword({password:newPassword})
+
+  const updateUser=await prisma.user.update({where:{id},data:{password:newPasswordHashed}})
+
+  return updateUser
 }

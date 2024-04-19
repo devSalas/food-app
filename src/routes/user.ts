@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { UserController } from "../controllers/UserController";
+import multer from "multer";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
+const upload = multer({storage:multer.memoryStorage()})
 const userRouter = Router();
 
 userRouter
@@ -8,6 +11,7 @@ userRouter
   .post("/users/create", UserController.createUser)
   .get("/users/:id", UserController.getUser)
   .delete("/users/:id", UserController.deleteUser)
-  .put("/users/:id", UserController.updateUser);
+  .put("/users/:id",authMiddleware,upload.single("file") ,UserController.updateUser)
+  .put("/users/password/:id",authMiddleware,UserController.updatePassword);
 
 export default userRouter;

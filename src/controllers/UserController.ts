@@ -45,19 +45,30 @@ export async function deleteUser(req: Request, res: Response) {
   sendJsonResponse(res, 204, user, "user deleted");
 }
 export async function updateUser(req: Request, res: Response) {
-  const { id } = req.params;
+  /* const { id } = req.params; */
+  const {id}=req
   const userid = +id;
-  const { address, email, image, name, password } = req.body;
+  const {name} = req.body;
+  const file=req.file
+  const image =file?.buffer?file.buffer:""
 
   const user = await services.updateUser({
     id: userid,
-    address,
-    email,
-    image,
+    buffer:image,
     name,
-    password,
   });
+  req.file = undefined;
+  sendJsonResponse(res, 200, user, "user updated");
+}
 
+export async function udpatePassword(req:Request,res:Response) {
+  
+  const {id}=req
+  const userid = +id;
+  const {oldPassword,newPassword} = req.body;
+  
+
+  const user= await services.updatePassword({id:userid,oldPassword,newPassword})
   sendJsonResponse(res, 200, user, "user updated");
 }
 
@@ -67,4 +78,9 @@ export const UserController = {
   createUser: catchedAsync(createUser),
   updateUser: catchedAsync(updateUser),
   deleteUser: catchedAsync(deleteUser),
+  updatePassword: catchedAsync(udpatePassword),
 };
+
+
+
+

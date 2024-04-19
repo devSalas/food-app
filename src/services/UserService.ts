@@ -13,7 +13,6 @@ export async function getUsers() {
       id: true,
       image: true,
       name: true,
-      password: true,
       rol_id: true,
     },
   });

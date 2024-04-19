@@ -26,6 +26,14 @@ export async function SignInService({
 
   const token = await jwtSign({ id: userExist.id });
 
-  return { token, id: userExist.id };
+  const user={
+    name:userExist.name,
+    email:userExist.email,
+    rol_id:userExist.rol_id,
+    image:userExist.image,
+    id:userExist.id
+  }
+
+  return { token, user };
 }
 

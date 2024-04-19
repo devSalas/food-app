@@ -13,7 +13,7 @@ async function getFavoritesController(req:Request,res:Response) {
 }
 async function postFavoritesController(req:Request,res:Response) {
 
-    const {id}=req.id
+    const {id}=req
     const {productid}=req.params
     const product_id=+productid
     const client_id=+id

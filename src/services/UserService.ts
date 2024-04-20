@@ -37,7 +37,7 @@ export async function createUser({
 
   if (!rol.id) throw new CustomError("Server Error", 500);
 
-  const name=email.split(' ')[0]
+  const name=email.split('@')[0]
   const image=''
 
   const user = await prisma.user.create({

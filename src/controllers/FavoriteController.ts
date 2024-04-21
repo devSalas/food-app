@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import * as FavoriteService from "../services/FavoriteService";
 import { catchedAsync } from "../utils/catchedAsync";
 import { sendJsonResponse } from "../utils/responseHttp";
+import type{ CustomRequest } from "../types/CustomRequest";
 
 async function getFavoritesController(req:Request,res:Response) {
 
@@ -11,8 +12,8 @@ async function getFavoritesController(req:Request,res:Response) {
     const favorites=await FavoriteService.getFavorites({client_id})
     sendJsonResponse(res, 200, favorites, "all favorites");
 }
-async function postFavoritesController(req:Request,res:Response) {
-
+async function postFavoritesController(req:CustomRequest,res:Response) {
+    if(req.id === undefined) return
     const {id}=req
     const {productid}=req.params
     const product_id=+productid
@@ -21,7 +22,8 @@ async function postFavoritesController(req:Request,res:Response) {
     const favorites=await FavoriteService.postFavorite({client_id:id,product_id})
     sendJsonResponse(res, 201, favorites, "favorites craete");
 }
-async function deleteFavoritesController(req:Request,res:Response) {
+async function deleteFavoritesController(req:CustomRequest,res:Response) {
+    if(req.id === undefined) return
     const {id}=req
     const {productid}=req.params
     const product_id=+productid

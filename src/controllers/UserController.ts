@@ -3,6 +3,7 @@ import type { Request, Response } from "express";
 import * as services from "../services/UserService";
 import { catchedAsync } from "../utils/catchedAsync";
 import { sendJsonResponse } from "../utils/responseHttp";
+import type{ CustomRequest } from "../types/CustomRequest";
 
 export async function getUsers(req: Request, res: Response) {
   const users = await services.getUsers();
@@ -19,7 +20,8 @@ export async function createUser(req: Request, res: Response) {
   sendJsonResponse(res, 201, users, "user created");
 }
 
-export async function getUser(req: Request, res: Response) {
+export async function getUser(req: CustomRequest, res: Response) {
+  if(req.id === undefined) return
   const { id } = req;
 
   const user = await services.getUserbyId({ id });
@@ -33,14 +35,16 @@ export async function findUserbyName(req: Request, res: Response) {
   res.status(200).json({ message: "gerson junior", data: user });
 }
 
-export async function deleteUser(req: Request, res: Response) {
+export async function deleteUser(req: CustomRequest, res: Response) {
+  if(req.id === undefined) return
   const { id } = req;
   const userid = +id;
   const user = await services.deleteUser({ id: userid });
 
   sendJsonResponse(res, 204, user, "user deleted");
 }
-export async function updateUser(req: Request, res: Response) {
+export async function updateUser(req: CustomRequest, res: Response) {
+  if(req.id === undefined) return
   const {id}=req
   const {name} = req.body;
   const file=req.file
@@ -55,8 +59,8 @@ export async function updateUser(req: Request, res: Response) {
   sendJsonResponse(res, 200, user, "user updated");
 }
 
-export async function udpatePassword(req:Request,res:Response) {
-  
+export async function udpatePassword(req:CustomRequest,res:Response) {
+  if(req.id === undefined) return
   const {id}=req
   const {oldPassword,newPassword} = req.body;
   

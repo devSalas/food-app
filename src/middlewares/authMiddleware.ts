@@ -1,8 +1,9 @@
 import type { NextFunction, Request, Response } from "express";
 import { jwtDecode } from "../utils/jwt/jwt";
+import type{ CustomRequest } from "../types/CustomRequest";
 
 export async function authMiddleware(
-  req: Request,
+  req: CustomRequest,
   res: Response,
   next: NextFunction
 ) {

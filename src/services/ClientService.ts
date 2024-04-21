@@ -23,8 +23,8 @@ export async function createClient(client: Client) {
   const {email,password}=client
   
   const existUser=await prisma.client.findFirst({where:{email}})
-  
-  if (!existUser?.id) throw new CustomError("Email is already used",400);
+  console.log(existUser)
+  if (existUser) throw new CustomError("Email is already used",400);
   
   const name= email.split(' ')[0]
   const passwordHashed=await EncryptPassword({password})

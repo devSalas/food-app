@@ -5,6 +5,6 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 export const favoriteRoute = Router();
 
 favoriteRoute
-  .get("/favorites/:id",authMiddleware,FavoriteController.getController)
-  .post("/favorites/:id/create/:productid",authMiddleware,FavoriteController.postController)
-  .delete("/favorites/:id/delete/:productid",authMiddleware,FavoriteController.deleteController);
+  .get("/favorites/",authMiddleware,FavoriteController.getController)
+  .post("/favorites/create/:productid",authMiddleware,FavoriteController.postController)
+  .delete("/favorites/delete/:productid",authMiddleware,FavoriteController.deleteController);

@@ -12,7 +12,7 @@ export async function UploadImage({buffer}:{buffer:any}) {
         cloudinary.uploader.upload_stream({resource_type:"auto",folder:'food-app'},(error, result) => {
             return resolve(result)
         }).end(buffer);
-        })
+        }) as any
       
     return res.url
 }

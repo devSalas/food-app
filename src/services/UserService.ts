@@ -117,11 +117,11 @@ export async function updateUser({
         if (!image) throw new Error("Error image")
     }
 
-
+  const oldImage=!image?user.image:buffer
 
   return await prisma.user.update({
     where: { id },
-    data: { name,image:!image?buffer:image},
+    data: { name,image:oldImage},
   });
 }
 

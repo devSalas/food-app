@@ -9,7 +9,7 @@ cloudinary.config({
 
 export async function UploadImage({buffer}:{buffer:any}) {
     const res:any=await new Promise((resolve)=>{
-        cloudinary.uploader.upload_stream({resource_type:"auto"},(error, result) => {
+        cloudinary.uploader.upload_stream({resource_type:"auto",folder:''},(error, result) => {
             return resolve(result)
         }).end(buffer);
         })

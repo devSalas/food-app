@@ -7,7 +7,7 @@ const productSchema=zod.object({
     name:zod.string().min(1,'Minimo un caracter').max(50,'Maximo 50 caracteres'),
     price:zod.number().min(1,'Debe ser posittivo'),
     category_id:zod.number().min(0,'Debe ser mayor a cero'),
-    decription:zod.string().min(0).max(50,'Maximo 50 caracteres'),
+    description:zod.string().min(0).max(50,'Maximo 50 caracteres'),
     ingredients:zod.string().min(0).max(50,'Maximo 50 caracteres'),
     image:zod.any()
 })

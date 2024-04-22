@@ -19,7 +19,8 @@ export async function getNotifications({id}:{id:number}) {
 
     const firstNotification= await prisma.notification.findFirst({orderBy:{createdAt:'asc'}})
 
-    return [...firstNotification]
+    
+    return [firstNotification].filter(e=>e!=null)
 }
 
 export async function postNotifications({description,title}:{description:string,title:string}) {

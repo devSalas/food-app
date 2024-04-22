@@ -4,9 +4,10 @@ import { catchedAsync } from "../utils/catchedAsync";
 import { sendJsonResponse } from "../utils/responseHttp";
 import type{ CustomRequest } from "../types/CustomRequest";
 
-async function getFavoritesController(req:Request,res:Response) {
+async function getFavoritesController(req:CustomRequest,res:Response) {
 
-    const {id}=req.params
+    if(req.id === undefined) return
+    const {id}=req
     const client_id=+id
 
     const favorites=await FavoriteService.getFavorites({client_id})

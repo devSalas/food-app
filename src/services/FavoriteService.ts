@@ -4,9 +4,9 @@ import prisma from "../utils/prismaClient";
 
 export async function getFavorites({client_id}:{client_id:number}) {
     
-    const favorite=await prisma.favorite.findMany({where:{client_id},include:{product:true}})
+    const favorite=await prisma.favorite.findMany({where:{client_id},select:{client_id:false,client:false,id:false,product_id:false,product:true}})
 
-    return favorite
+    return favorite.map(e=>({...e.product}))
 }
 export async function postFavorite({client_id,product_id}:{product_id:number,client_id:number}) {
     

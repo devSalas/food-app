@@ -48,8 +48,8 @@ export async function updateUser(req: CustomRequest, res: Response) {
   const {id}=req
   const {name} = req.body;
   const file=req.file
-  const image =file?.buffer?file.buffer:""
-
+  const image =file?.buffer?file.buffer:req.file
+  
   const user = await services.updateUser({
     id,
     buffer:image,

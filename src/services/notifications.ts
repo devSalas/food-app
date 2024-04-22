@@ -1,11 +1,21 @@
 import { CustomError } from "../utils/errors";
 import prisma from "../utils/prismaClient";
+import { getUserbyId } from "./UserService";
 
-export async function getNotifications() {
+export async function getNotifications({id}:{id:number}) {
     
     const notifications =await prisma.notification.findMany({orderBy:{createdAt:'desc'}})
 
-    if (notifications.length>=1)  return notifications
+    const user= await getUserbyId({id})
+
+    if (!user?.id) throw new CustomError("User error",400);
+    
+    if (notifications.length>=1) { 
+        
+        const notifyFilter= notifications.filter(notification=>notification.createdAt>user.createdAt)
+
+        return notifyFilter
+    }
 
     const firstNotification= await prisma.notification.findFirst({orderBy:{createdAt:'asc'}})
 

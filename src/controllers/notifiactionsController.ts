@@ -4,7 +4,8 @@ import { sendJsonResponse } from "../utils/responseHttp";
 import { catchedAsync } from "../utils/catchedAsync";
 
 async function getNotifications(req:Request,res:Response) {
-    const notificatiosn=await NotificationServices.getNotifications()
+    const {id}=req.params
+    const notificatiosn=await NotificationServices.getNotifications({id:+id})
     sendJsonResponse(res,200,notificatiosn,"notifications found")
 }
 async function createNotifications(req:Request,res:Response) {

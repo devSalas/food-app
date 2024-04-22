@@ -81,7 +81,7 @@ export async function getUserbyId({ id }: { id: number }) {
       id: true,
       image: true,
       name: true,
-      password: true,
+      createdAt:true,
       rol_id: true,
     },
   });

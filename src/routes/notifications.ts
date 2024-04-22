@@ -5,7 +5,7 @@ export const NotificationsRouter=Router()
 
 
 NotificationsRouter 
-                .get('/notifications',NotificationController.getNotifications)
+                .get('/notifications/:id',NotificationController.getNotifications)
                 .post('/notifications/create',NotificationController.createNotifications)
                 .delete('/notifications/delete/:id',NotificationController.deleteNotifications)
                 .put('/notifications/update/:id',NotificationController.updateNotifications)

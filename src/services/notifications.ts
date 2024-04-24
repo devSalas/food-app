@@ -4,12 +4,12 @@ import { getUserbyId } from "./UserService";
 
 export async function getNotifications({id}:{id:number}) {
     
-    const notifications =await prisma.notification.findMany({orderBy:{createdAt:'desc'}})
+    const notifications =await prisma.user_Notification.findMany({where:{client_id:id},orderBy:{createdAt:'desc'},include:{notification:true}})
 
     const user= await getUserbyId({id})
 
     if (!user?.id) throw new CustomError("User error",400);
-    
+
     if (notifications.length>=1) { 
         
         const notifyFilter= notifications.filter(notification=>notification.createdAt>user.createdAt)
@@ -27,7 +27,7 @@ export async function postNotifications({description,title}:{description:string,
 
     const existNotification=await findNotification(title)
 
-    if (!existNotification?.id) throw new CustomError("title of Notificaitons is duplicate",400);
+    if (existNotification?.id) throw new CustomError("title of Notificaitons is duplicate",400);
     
     const notifications =await prisma.notification.create({data:{description,title}})
 

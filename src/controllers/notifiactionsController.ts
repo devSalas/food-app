@@ -3,6 +3,7 @@ import * as NotificationServices from "../services/notifications";
 import { sendJsonResponse } from "../utils/responseHttp";
 import { catchedAsync } from "../utils/catchedAsync";
 import type { CustomRequest } from "../types/CustomRequest";
+import { createUserNotification } from "../services/useNotification";
 
 async function getNotifications(req:CustomRequest,res:Response) {
     if (req.id===undefined) return
@@ -12,8 +13,9 @@ async function getNotifications(req:CustomRequest,res:Response) {
 }
 async function createNotifications(req:Request,res:Response) {
     const {description,title}=req.body
-    const notificatiosn=await NotificationServices.postNotifications({description,title})
-    sendJsonResponse(res,200,notificatiosn,"notifications found")
+    const notification=await NotificationServices.postNotifications({description,title})
+    await createUserNotification({notification_id:notification.id})
+    sendJsonResponse(res,200,notification,"notifications found")
 }
 async function deleteNotifications(req:CustomRequest,res:Response) {
     if (req.id===undefined) return

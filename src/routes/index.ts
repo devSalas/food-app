@@ -9,6 +9,7 @@ import rolRouter from "./rol";
 import userRouter from "./user";
 import { favoriteRoute } from "./favorite";
 import { NotificationsRouter } from "./notifications";
+import { UserNotificationsRouter } from "./userNotification";
 
 export const routes = Router();
 
@@ -22,4 +23,5 @@ routes
   .use(orderDetailRouter)
   .use(NotificationsRouter)
   .use(authRoute)
+  .use(UserNotificationsRouter)
   .use(favoriteRoute);

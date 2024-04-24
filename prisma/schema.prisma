@@ -26,6 +26,7 @@ model Client {
   password  String
   orders    Order[]
   favorite Favorite[]
+  user_notification User_Notification[]
 }
 
 model Product {
@@ -142,6 +143,18 @@ model Notification{
   id  Int @id @default(autoincrement())
   title String
   description String
+  user_notification User_Notification[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User_Notification{
+  id  Int @id @default(autoincrement())
+  client Client @relation(fields: [client_id],references: [id])
+  client_id Int
+  notification Notification @relation(fields: [notification_id],references: [id])
+  notification_id Int
+  isSeen     Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

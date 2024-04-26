@@ -48,6 +48,7 @@ async function deleteOrder(req: Request, res: Response) {
   return sendJsonResponse(res, 200, categoryDeleted, "delete order");
 }
 
+
 export const orderController = {
   getOrders: catchedAsync(getOrders),
   getOrder: catchedAsync(getOrder),

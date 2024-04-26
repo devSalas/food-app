@@ -4,7 +4,7 @@ import { sendJsonResponse } from "../utils/responseHttp";
 
 
 const orderSchema=zod.object({
-    clien_id:zod.number().min(0),
+    user_id:zod.number().min(0),
     total:zod.number().min(0,'Debe ser mayor a 0'),
     payment_status:zod.enum(["EFECTIVO","YAPE"]),
     date:zod.date()

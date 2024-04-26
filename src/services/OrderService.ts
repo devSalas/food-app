@@ -35,3 +35,21 @@ export async function deleteOrder(id: number) {
   });
   return orderDeleted;
 }
+
+
+/* funciones para stripe */
+export async  function createOrderFromPayment(user_id:number,total:number):Promise<number> {
+  const orderCreated = await prisma.order.create({
+    data:{
+      total:total,
+      user_id:user_id,
+      payment_status:"EFECTIVO",
+      order_status:"PENDIENTE",
+      date:new Date()
+    } 
+   
+  });
+  const id  =orderCreated.id
+
+  return  id
+}

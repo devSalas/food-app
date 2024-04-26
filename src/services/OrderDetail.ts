@@ -40,3 +40,15 @@ export async function deleteOrderDetail(id: number) {
   });
   return details_OrderDeleted;
 }
+
+
+/* funciones para stripe */
+export async  function createOrderDetailFromPayment(order_id:number,product_id:number) {
+   await prisma.details_Order.create({
+    data:{
+      order_id:order_id,
+      product_id:product_id 
+    } 
+   
+  });
+}

@@ -118,7 +118,6 @@ export async function updateUser({
     }
 
 
-
   return await prisma.user.update({
     where: { id },
     data: { name,image:!image?buffer:image},

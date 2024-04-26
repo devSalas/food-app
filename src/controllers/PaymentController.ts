@@ -5,7 +5,9 @@ import type { CustomRequest } from "../types/CustomRequest";
 import type { Product } from "../types/product";
 import { CustomError } from "../utils/errors";
 import { PrismaClient } from "@prisma/client";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
+import { createOrderDetailFromPayment } from "../services/OrderDetail";
+import { createOrderFromPayment } from "../services/OrderService";
 dotenv.config();
 
 const key_stripe = process.env.STRIPE_KEY || "";
@@ -64,8 +66,8 @@ const webHookPayment = async (req: Request | any, res: Response) => {
 				{
 					const checkoutSessionCompleted = event.data.object;
 					const metadata = checkoutSessionCompleted.metadata;
-					const total= checkoutSessionCompleted.amount_total
-					getData(metadata,total);
+					const total = checkoutSessionCompleted.amount_total;
+					getData(metadata, total);
 				}
 				break;
 
@@ -80,34 +82,25 @@ const webHookPayment = async (req: Request | any, res: Response) => {
 };
 
 interface Metadata {
-	productsId?: number[];
-	userId?: number;
+	[key: string]: string | number
 }
 
 const prisma = new PrismaClient();
 
 async function getData(metadata: Metadata | null, total: number | null) {
-	console.log(metadata, total);
-	if (!metadata) return;
-	if (!total) return;
-	const { userId, ...productsId } = metadata;
-	const orderCreated = await prisma.order.create({
-		data: {
-			client_id: Number(userId )?? 2,
-			date: new Date(),
-			payment_status: "YAPE",
-			order_status: "PENDIENTE",
-			total: total,
-		},
-	});
 
+	if (!metadata || !total) return;
+	
+	const { userId, ...productsId } = metadata;
+
+	const  userIdNumber = Number(userId)
+	/* crear el order */
+	const order_id =await createOrderFromPayment(userIdNumber,total)
+	
+/* crear los detalles del order */
 	for (const key in productsId) {
-		await prisma.details_Order.create({
-			data: {
-				order_id: Number(orderCreated.id),
-				product_id:Number(productsId[key]),
-			},
-		});
+		const num = productsId[key] as number
+		createOrderDetailFromPayment(order_id,num)
 	}
 }
 

@@ -11,7 +11,7 @@ enum Order_status {
 
 export interface Order {
   id?: number;
-  client_id: number;
+  user_id: number;
   date: Date;
   total: number;
   order_status: Order_status;

@@ -37,36 +37,3 @@ export async function SignInService({
   return { token, user };
 }
 
-
-
-export async function SignInClientService({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) {
-  const userExist = await prisma.client.findFirst({ where: { email } });
-  
-  if (!userExist?.id)
-    throw new CustomError("Email or password is incorrect", 401);
-  
-  const passwordVerify = await decodePassword({
-    password,
-    passwordEncripted: userExist.password,
-  });
-  
-  if (!passwordVerify) throw new CustomError("Email or password is incorrect", 401);
-
-  const token = await jwtSign({ id: userExist.id });
-
-  const user={
-    name:userExist.name,
-    email:userExist.email,
-    image:userExist.image,
-    id:userExist.id
-  }
-
-  return { token, user };
-}
-

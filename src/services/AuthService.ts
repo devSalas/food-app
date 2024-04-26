@@ -12,7 +12,7 @@ export async function SignInService({
   email: string;
   password: string;
 }) {
-  const userExist = await prisma.user.findFirst({ where: { email } });
+  const userExist = await prisma.user.findFirst({ where: { email },include:{rol:true} });
   
   if (!userExist?.id)
     throw new CustomError("Email or password is incorrect", 401);
@@ -29,7 +29,7 @@ export async function SignInService({
   const user={
     name:userExist.name,
     email:userExist.email,
-    rol_id:userExist.rol_id,
+    rol:userExist.rol.name,
     image:userExist.image,
     id:userExist.id
   }

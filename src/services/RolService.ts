@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import  prisma  from "../utils/prismaClient";
 import { CustomError } from "../utils/errors";
-
-const prisma = new PrismaClient();
 
 export async function getRoles() {
   const roles = await prisma.rol.findMany();
@@ -27,8 +25,9 @@ export async function getRolbyId({ id }: { id: number }) {
   return rol;
 }
 export async function getRolbyName({ name }: { name: string }) {
+  
   const rol = await prisma.rol.findFirst({ where: { name } });
-
+  
   if (!rol?.id) throw new CustomError("not found", 404);
 
   return rol;

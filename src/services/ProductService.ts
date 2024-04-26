@@ -1,4 +1,5 @@
 import type { Product } from "../types/product";
+import { UploadImage } from "../utils/cloudinary/UploadImage";
 import prisma from "../utils/prismaClient";
 
 export async function getProducts(name: string, price: number) {
@@ -18,8 +19,15 @@ export async function getProduct(id: number) {
   return productFound;
 }
 
-export async function createProduct(data: Product) {
-  const productCreated = await prisma.product.create({ data });
+export async function createProduct({data}:{data: Product}) {
+
+  let image:any
+  if (data.image instanceof Buffer && data.image) {
+    image=await UploadImage({buffer:data.image,pathName:"products"})
+    if (!image) throw new Error("Error image")
+  }
+
+  const productCreated = await prisma.product.create({ data:{...data,image:image?image:data.image} });
   return productCreated;
 }
 

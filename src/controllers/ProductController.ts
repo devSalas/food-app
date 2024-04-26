@@ -30,9 +30,11 @@ async function getProduct(req: Request, res: Response) {
 
 async function createProduct(req: Request, res: Response) {
   const result = validateProduct(req.body);
+  const file=req.file
+  const image=file?.buffer?file.buffer:req.file
 
   if (result.success) {
-    const product = await ProductService.createProduct(result.data);
+    const product = await ProductService.createProduct({data:{...result.data,image}});
     return sendJsonResponse(res, 201, product, "Producto creado");
   }
 

@@ -1,7 +1,7 @@
-export interface Category {
+export interface CategoryI {
   id?: number;
   name: string;
-  image: string;
+  image: any;
   createdAt?: Date;
   updatedAt?: Date;
 }

@@ -28,13 +28,13 @@ export async function createUser({
   password: string;
 }) {
   const isexist = await prisma.user.findFirst({ where: { email } });
-
+  
   if (isexist?.id) throw new CustomError("Email is already registered", 400);
-
+  
   const passwordEncrypt = await EncryptPassword({ password });
-
+  
   const rol = await getRolbyName({ name: "client" });
-
+  
   if (!rol.id) throw new CustomError("Server Error", 500);
 
   const name=email.split('@')[0]
@@ -113,7 +113,7 @@ export async function updateUser({
 
   let image:any
     if (buffer instanceof Buffer && buffer) {
-        image=await UploadImage({buffer,pathName:"user"})
+        image=await UploadImage({buffer,pathName:"users"})
         if (!image) throw new Error("Error image")
     }
 

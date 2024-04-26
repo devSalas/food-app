@@ -24,9 +24,11 @@ async function getCategory(req: Request, res: Response) {
 
 async function createCategory(req: Request, res: Response) {
   const result = validateCategory(req.body);
+  const file=req.file
+  const image=file?.buffer?file.buffer:req.file
 
   if (result.success) {
-    const category = await CategoryService.createCategory(result.data);
+    const category = await CategoryService.createCategory({data:{...result.data,image}});
     return sendJsonResponse(res, 201, category, "Categoria Creada");
   }
 

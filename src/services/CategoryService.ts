@@ -1,4 +1,6 @@
 import type { Category } from "../schemas/category";
+import type { CategoryI } from "../types/category";
+import { UploadImage } from "../utils/cloudinary/UploadImage";
 import { CustomError } from "../utils/errors";
 import prisma from "../utils/prismaClient";
 
@@ -16,7 +18,9 @@ export async function getCategory(id: number) {
   return category;
 }
 
-export async function createCategory(data: Category) {
+export async function createCategory({data}:{data: CategoryI}) {
+
+  
   const categoryFound = await prisma.category.findFirst({
     where: { name: data.name },
   });
@@ -24,7 +28,14 @@ export async function createCategory(data: Category) {
   if (categoryFound !== null)
     throw new CustomError("Esta categoria ya existe", 400);
 
-  const category = await prisma.category.create({ data });
+  let image:any
+  if (data.image instanceof Buffer && data.image) {
+    image=await UploadImage({buffer:data.image,pathName:"categories"})
+    if (!image) throw new Error("Error image")
+  }
+
+
+  const category = await prisma.category.create({  data:{...data,image:image?image:data.image} });
   return category;
 }
 

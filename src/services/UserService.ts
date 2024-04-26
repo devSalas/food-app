@@ -112,8 +112,8 @@ export async function updateUser({
   if (!user?.id) throw new CustomError("not found", 404);
 
   let image:any
-    if (buffer) {
-        image=await UploadImage({buffer})
+    if (buffer instanceof Buffer && buffer) {
+        image=await UploadImage({buffer,pathName:"user"})
         if (!image) throw new Error("Error image")
     }
 

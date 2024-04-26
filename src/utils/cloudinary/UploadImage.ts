@@ -8,11 +8,11 @@ cloudinary.config({
     secure:true
 });
 
-export async function UploadImage({buffer}:{buffer:any}) {
+export async function UploadImage({buffer,pathName}:{buffer:Buffer,pathName:string}) {
     let res:any
     try {    
         res=await new Promise((resolve,reject)=>{
-            cloudinary.uploader.upload_stream({resource_type:"auto",folder:'food-app/user'},(error, result) => {
+            cloudinary.uploader.upload_stream({resource_type:"auto",folder:`food-app/${pathName}`},(error, result) => {
                 if (result?.url) return resolve(result)
                 return reject(error)
             }).end(buffer);

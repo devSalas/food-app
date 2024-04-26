@@ -9,6 +9,7 @@ import rolRouter from "./rol";
 import userRouter from "./user";
 import { favoriteRoute } from "./favorite";
 import { NotificationsRouter } from "./notifications";
+import { paymentRouter } from "./payment";
 
 export const routes = Router();
 
@@ -20,6 +21,6 @@ routes
   .use(productRouter)
   .use(orderRouter)
   .use(orderDetailRouter)
-  .use(NotificationsRouter)
   .use(authRoute)
-  .use(favoriteRoute);
+  .use(favoriteRoute)
+  .use(paymentRouter)

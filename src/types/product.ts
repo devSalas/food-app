@@ -8,4 +8,5 @@ export interface Product {
   updateAt?: Date;
   description: string
   ingredients: string;
+  count?: number
 }

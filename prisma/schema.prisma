@@ -14,20 +14,6 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-model Client {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String
-  image     String
-  address   String?
-  phone     String
-  email     String
-  password  String
-  orders    Order[]
-  favorite Favorite[]
-}
-
 model Product {
   id            Int             @id @default(autoincrement())
   createdAt     DateTime        @default(now())
@@ -36,19 +22,19 @@ model Product {
   image         String
   price         Decimal
   description   String          @default("no definido")
-  ingredients   String           @default("no definido")
+  ingredients   String          @default("no definido")
   details_order Details_Order[]
   category      Category        @relation(fields: [category_id], references: [id])
   category_id   Int
-    favorite Favorite[]
+  favorite      Favorite[]
 }
 
 model Order {
   id             Int             @id @default(autoincrement())
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
-  client         Client          @relation(fields: [client_id], references: [id])
-  client_id      Int
+  user           User            @relation(fields: [user_id], references: [id])
+  user_id        Int
   details_order  Details_Order[]
   date           DateTime
   total          Decimal
@@ -59,6 +45,7 @@ model Order {
 
 enum Method_pay {
   EFECTIVO
+  TARJETA
   YAPE
 }
 
@@ -79,13 +66,12 @@ model Details_Order {
 }
 
 model Category {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
-  image     String   @default("")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  product Product[]
+  image     String    @default("")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  product   Product[]
 }
 
 model Opening_hour {
@@ -109,16 +95,18 @@ model Payment {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   name      String
   image     String
-  email     String   @unique
+  email     String     @unique
   password  String
   address   String
-  rol       Rol      @relation(fields: [rol_id], references: [id])
+  rol       Rol        @relation(fields: [rol_id], references: [id])
   rol_id    Int
+  Order     Order[]
+  Favorite  Favorite[]
 }
 
 model Rol {
@@ -129,19 +117,10 @@ model Rol {
   user      User[]
 }
 
-model Favorite{
-  id  Int @id @default(autoincrement())
-  client Client @relation(fields: [client_id],references: [id])
-  client_id Int
-  product Product @relation(fields: [product_id],references: [id])
+model Favorite {
+  id         Int     @id @default(autoincrement())
+  user       User    @relation(fields: [user_id], references: [id])
+  user_id    Int
+  product    Product @relation(fields: [product_id], references: [id])
   product_id Int
-}
-
-
-model Notification{
-  id  Int @id @default(autoincrement())
-  title String
-  description String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }

@@ -4,7 +4,7 @@ import { sendJsonResponse } from "../utils/responseHttp";
 
 
 const categorySchema=zod.object({
-    image:zod.any(),
+    file:zod.any(),
     name:zod.string().min(1,"Al menos 1 caracter").max(50,'Maximo 50 caracteres'),
 })
 

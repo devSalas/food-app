@@ -29,16 +29,13 @@ async function getProduct(req: Request, res: Response) {
 }
 
 async function createProduct(req: Request, res: Response) {
-  const result = validateProduct(req.body);
+  const {category_id,description,ingredients,name,price}=req.body
   const file=req.file
   const image=file?.buffer?file.buffer:req.file
+  
+  const product = await ProductService.createProduct({data:{category_id:+category_id,description,ingredients,name,price:+price,image}});
+   return sendJsonResponse(res, 201, product, "Producto creado");
 
-  if (result.success) {
-    const product = await ProductService.createProduct({data:{...result.data,image}});
-    return sendJsonResponse(res, 201, product, "Producto creado");
-  }
-
-  throw new CustomError("Error al crear un producto", 404);
 }
 
 async function updateProduct(req: Request, res: Response) {

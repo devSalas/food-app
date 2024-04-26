@@ -2,7 +2,6 @@ import z from "zod";
 
 const categorySchema = z.object({
   name: z.string(),
-  image: z.string(),
 });
 
 export type Category = z.infer<typeof categorySchema>;

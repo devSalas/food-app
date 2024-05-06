@@ -5,7 +5,7 @@ import { sendJsonResponse } from "../utils/responseHttp";
 
 export async function SingIn(req: Request, res: Response) {
   const { email, password } = req.body;
-
+  
   const data = await SignInService({ email, password });
 
   sendJsonResponse(res, 200, data, "singin");

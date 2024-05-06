@@ -8,9 +8,9 @@ const rolRouter = Router();
 
 rolRouter
   .get("/roles/", RolController.getRoles)
-  .post("/roles/create",authMiddleware,adminMiddleware,validateRol,RolController.createRol)
+  .post("/roles/create",authMiddleware.authMiddleware,adminMiddleware,validateRol,RolController.createRol)
   .get("/roles/:id",RolController.getRol)
-  .delete("/roles/delete/:id",authMiddleware,adminMiddleware, RolController.deleteRol)
-  .put("/roles/update/:id",authMiddleware,adminMiddleware, RolController.updateRol);
+  .delete("/roles/delete/:id",authMiddleware.authMiddleware,adminMiddleware, RolController.deleteRol)
+  .put("/roles/update/:id",authMiddleware.authMiddleware,adminMiddleware, RolController.updateRol);
 
 export default rolRouter;

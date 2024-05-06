@@ -1,23 +1,32 @@
 import type { NextFunction, Request, Response } from "express";
 import { jwtDecode } from "../utils/jwt/jwt";
 import type{ CustomRequest } from "../types/CustomRequest";
+import { catchedAsync } from "../utils/catchedAsync";
+import { CustomError } from "../utils/errors";
 
-export async function authMiddleware(
+export async function jwtMiddleware(
   req: CustomRequest,
   res: Response,
   next: NextFunction
 ) {
   const header = req.headers.authorization;
   
-  if (header === undefined) return res.status(401).json({error:true,data:null,message:"token not found or expired"})
-    const token = header.split(" ")[1];
-  try {
-    const { id: payload }: any = await jwtDecode({ token });
-    if (payload==null || payload===undefined) return res.status(403).json({error:true,data:null,message:"Forbidden"})
+  if (header === undefined) {
+    const err=new CustomError("Bearer token not found",400)
+    return next(err)
+  }
+  const token = header.split(" ")[1];
+  
+  const { id: payload }: any = await jwtDecode({ token });
+  
+  if (payload==null || payload===undefined) {
+      const err=new CustomError("Payload jwt not found",403)
+      return next(err)
+    }
     req.id=Number(payload) 
     next();
+}
 
-  } catch (error) {
-    return res.status(401).json({error:true,data:null,message:"token not found or expired"})
-  }
+export const authMiddleware={
+  authMiddleware:catchedAsync(jwtMiddleware)
 }

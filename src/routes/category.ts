@@ -12,6 +12,6 @@ export const categoryRouter = Router();
 categoryRouter
   .get("/categories", CategoryController.getCategories)
   .get("/categories/:id", CategoryController.getCategory)
-  .post("/categories/create",authMiddleware,adminMiddleware,upload.single("file"),validateCategory,CategoryController.createCategory)
-  .put("/categories/update/:id",authMiddleware,adminMiddleware, CategoryController.updateCategory)
-  .delete("/categories/delete/:id",authMiddleware,adminMiddleware, CategoryController.deleteCategory);
+  .post("/categories/create",authMiddleware.authMiddleware,adminMiddleware,upload.single("file"),validateCategory,CategoryController.createCategory)
+  .put("/categories/update/:id",authMiddleware.authMiddleware,adminMiddleware, CategoryController.updateCategory)
+  .delete("/categories/delete/:id",authMiddleware.authMiddleware,adminMiddleware, CategoryController.deleteCategory);

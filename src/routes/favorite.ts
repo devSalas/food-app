@@ -6,6 +6,6 @@ import { clientMiddleware } from "../middlewares/clientMiddleware";
 export const favoriteRoute = Router();
 
 favoriteRoute
-  .get("/favorites/",authMiddleware,clientMiddleware,FavoriteController.getController)
-  .post("/favorites/create/:productid",authMiddleware,clientMiddleware,FavoriteController.postController)
-  .delete("/favorites/delete/:productid",authMiddleware,clientMiddleware,FavoriteController.deleteController);
+  .get("/favorites/",authMiddleware.authMiddleware,clientMiddleware,FavoriteController.getController)
+  .post("/favorites/create/:productid",authMiddleware.authMiddleware,clientMiddleware,FavoriteController.postController)
+  .delete("/favorites/delete/:productid",authMiddleware.authMiddleware,clientMiddleware,FavoriteController.deleteController);

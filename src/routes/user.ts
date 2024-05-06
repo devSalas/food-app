@@ -11,9 +11,9 @@ const userRouter = Router();
 userRouter
   .get("/users/", UserController.getUsers)
   .post("/users/create",validateRegister,UserController.createUser)
-  .get("/users/user",authMiddleware,clientMiddleware, UserController.getUser)
-  .delete("/users/delete",authMiddleware,clientMiddleware,UserController.deleteUser)
-  .put("/users/update",authMiddleware,clientMiddleware,upload.single("file"),UserController.updateUser)
-  .put("/users/update/password",authMiddleware,clientMiddleware,UserController.updatePassword);
+  .get("/users/user",authMiddleware.authMiddleware,clientMiddleware, UserController.getUser)
+  .delete("/users/delete",authMiddleware.authMiddleware,clientMiddleware,UserController.deleteUser)
+  .put("/users/update",authMiddleware.authMiddleware,clientMiddleware,upload.single("file"),UserController.updateUser)
+  .put("/users/update/password",authMiddleware.authMiddleware,clientMiddleware,UserController.updatePassword);
 
 export default userRouter;

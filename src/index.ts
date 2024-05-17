@@ -10,7 +10,7 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 app.use(cors());
-/* esta ruta no tiene que pasar por un middleware que pueda modificar los datos  como   express.sjon() */
+
 app.use("/api",stripeRouter)
 
 app.use(express.json());

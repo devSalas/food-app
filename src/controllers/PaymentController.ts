@@ -26,7 +26,7 @@ const postPagePayment = async (req: CustomRequest, res: Response) => {
 					name: item.name,
 					images: [item.image],
 				},
-				unit_amount: item.price,
+				unit_amount: item.price*100,
 			},
 			quantity: item.count,
 		};
@@ -58,6 +58,7 @@ const webHookPayment = async (req: Request | any, res: Response) => {
 		const sig = req.headers["stripe-signature"] as string;
 		console.log({ n: 60, signature: sig });
 		if (!sig) return;
+
 		const event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
 		console.log(event);
 
@@ -99,7 +100,7 @@ async function getData(metadata: Metadata | null, total: number | null) {
 	
 /* crear los detalles del order */
 	for (const key in productsId) {
-		const num = productsId[key] as number
+		const num = Number(productsId[key]) 
 		createOrderDetailFromPayment(order_id,num)
 	}
 }

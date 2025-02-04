@@ -1,36 +1,57 @@
-import { PrismaClient } from "@prisma/client";
-import { Category } from "../types/category";
+import type { Category } from "../schemas/category";
+import type { CategoryI } from "../types/category";
+import { UploadImage } from "../utils/cloudinary/UploadImage";
+import { CustomError } from "../utils/errors";
+import prisma from "../utils/prismaClient";
 
-const prisma = new PrismaClient();
-
-export async function getCategories() {
-   const categories =await prisma.category.findMany()
-   return categories
-}
-export async function getCategory(id:number) {
-    const newCategory = await prisma.category.findFirst({
-        where:{
-            id
-        }
-    })
-    return newCategory
-}
-export async function createCategory(category:Category) {
-
-    const categoryCreated = await prisma.category.create({data:category})
-    return categoryCreated
+export async function getCategories(){
+  const categories = await prisma.category.findMany()
+  console.log("las cateogrias")
+  return categories;
 }
 
-export async function updateCategory(id:number,category:Category) {
-    const  categoryUpdated  = await prisma.category.update({
-        where:{id:id},
-        data:{ ...category}
-    })
-    return categoryUpdated;
+export async function getCategory(id: number) {
+ 
+  const category = await prisma.category.findFirst({
+    where: {
+      id,
+    },
+  });
+  return category;
 }
-export async function deleteCategory(id:number) {
-    const categoryDeleted  = await prisma.category.delete({
-        where:{id:id}
-    })
-    return categoryDeleted;
+
+export async function createCategory({data}:{data: CategoryI}) {
+
+  
+  const categoryFound = await prisma.category.findFirst({
+    where: { name: data.name },
+  });
+
+  if (categoryFound !== null)
+    throw new CustomError("Esta categoria ya existe", 400);
+
+  let image:any
+  if (data.image instanceof Buffer && data.image) {
+    image=await UploadImage({buffer:data.image,pathName:"categories"})
+    if (!image) throw new Error("Error image")
+  }
+
+
+  const category = await prisma.category.create({  data:{...data,image:image?image:data.image} });
+  return category;
+}
+
+export async function updateCategory(id: number, data: Partial<Category>) {
+  const category = await prisma.category.update({
+    where: { id },
+    data,
+  });
+  return category;
+}
+
+export async function deleteCategory(id: number) {
+  const category = await prisma.category.delete({
+    where: { id },
+  });
+  return category;
 }

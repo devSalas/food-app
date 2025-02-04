@@ -1,4 +1,11 @@
+dist
+dist/
 node_modules
 .env
+<<<<<<< HEAD
 dist/
 package-lock.json
+=======
+package-lock.json
+.vscode
+>>>>>>> dev

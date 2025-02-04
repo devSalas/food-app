@@ -1,55 +1,62 @@
-import * as CategoryService from '../services/CategoryService'
-import { Response, Request } from 'express';
-import { sendJsonResponse } from '../utils/responseHttp';
-import { catchedAsync } from '../utils/catchedAsync';
-import { CustomError } from '../utils/errors';
-async function getCategories(req: Request, res: Response) {
+import type { Request, Response } from "express";
+import { validateCategory, validateCategoryPartial } from "../schemas/category";
+import * as CategoryService from "../services/CategoryService";
+import { catchedAsync } from "../utils/catchedAsync";
+import { CustomError } from "../utils/errors";
+import { sendJsonResponse } from "../utils/responseHttp";
+import { verificarId } from "../utils/verificarId";
 
-    const categories = await CategoryService.getCategories();
-
-    sendJsonResponse(res, 400, categories, "all categories")
+async function getCategories(_req: Request, res: Response) {
+  const categories = await CategoryService.getCategories();
+  console.log(11,{categories})
+  sendJsonResponse(res, 200, categories, "Todas la categorias");
 }
 
 async function getCategory(req: Request, res: Response) {
-    const id = req.params.id
+  const id = verificarId(req.params.id);
 
-    if (!(/^\d+$/.test(id))) throw new CustomError("el id tiene que ser un numero", 400)
+  const category = await CategoryService.getCategory(id);
 
-    const category = await CategoryService.getCategory(+id);
+  if (!category) throw new CustomError("Categoria no encotrada", 404);
 
-    if(!category) throw new  CustomError("esta categoria no existe",404)
-
-    return sendJsonResponse(res, 200, category,"categoria con exito")
+  return sendJsonResponse(res, 200, category, "Categoria encotrada");
 }
 
-
 async function createCategory(req: Request, res: Response) {
-    const categoryCreated  =await CategoryService.createCategory(req.body);
-    return sendJsonResponse(res,201,categoryCreated,'created category')
+  const result = validateCategory(req.body);
+  const file=req.file
+  const image=file?.buffer?file.buffer:req.file
+
+  if (result.success) {
+    const category = await CategoryService.createCategory({data:{...result.data,image}});
+    return sendJsonResponse(res, 201, category, "Categoria Creada");
+  }
+
+  throw new CustomError("Error al crear una categoria", 404);
 }
 
 async function updateCategory(req: Request, res: Response) {
-    const id = req.params.id
-    if (!(/^\d+$/.test(id))) throw new CustomError("el id tiene que ser un numero", 400)
-    const idNumber = parseInt(id)
-    const body  =req.body
+  const id = verificarId(req.params.id);
 
-    const categoryUpdated =await CategoryService.updateCategory( idNumber,body)
-     return sendJsonResponse(res,200,categoryUpdated,"update category")
+  const result = validateCategoryPartial(req.body);
+
+  if (result.success) {
+    const category = await CategoryService.updateCategory(id, result.data);
+    return sendJsonResponse(res, 200, category, "Categoria actualizada");
+  }
+  throw new CustomError("Error al actualizar una categoria", 404);
 }
 async function deleteCategory(req: Request, res: Response) {
-    let id = req.params.id
-    if (!(/^\d+$/.test(id))) throw new CustomError("el id tiene que ser un numero", 400)
-    const idNumber = parseInt(id)
+  const id = verificarId(req.params.id);
 
-    const categoryDeleted = await CategoryService.deleteCategory(idNumber)
-    return sendJsonResponse(res,200,categoryDeleted,"delete category")
+  const category = await CategoryService.deleteCategory(id);
+  return sendJsonResponse(res, 200, category, "Categoria eliminada");
 }
 
 export const CategoryController = {
-    getCategories: catchedAsync(getCategories),
-    getCategory: catchedAsync(getCategory),
-    createCategory:catchedAsync(createCategory),
-    updateCategory:catchedAsync(updateCategory),
-    deleteCategory:catchedAsync(deleteCategory)
-}
+  getCategories: catchedAsync(getCategories),
+  getCategory: catchedAsync(getCategory),
+  createCategory: catchedAsync(createCategory),
+  updateCategory: catchedAsync(updateCategory),
+  deleteCategory: catchedAsync(deleteCategory),
+};

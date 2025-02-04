@@ -39,9 +39,10 @@ async function createProduct(req: Request, res: Response) {
 }
 
 async function updateProduct(req: Request, res: Response) {
+  console.log("ingreso al controlador")
   const id = verificarId(req.params.id);
   const result = validateProductPartial(req.body);
-
+  console.log("45",{result},id)
   if (result.success) {
     const product = await ProductService.updateProduct(id, result.data);
     return sendJsonResponse(res, 200, product, "Producto actualizado");

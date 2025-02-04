@@ -4,12 +4,14 @@ import { UploadImage } from "../utils/cloudinary/UploadImage";
 import { CustomError } from "../utils/errors";
 import prisma from "../utils/prismaClient";
 
-export async function getCategories() {
-  const categories = await prisma.category.findMany();
+export async function getCategories(){
+  const categories = await prisma.category.findMany()
+  console.log("las cateogrias")
   return categories;
 }
 
 export async function getCategory(id: number) {
+ 
   const category = await prisma.category.findFirst({
     where: {
       id,

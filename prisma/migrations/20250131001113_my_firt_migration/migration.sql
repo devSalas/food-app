@@ -1,19 +1,4 @@
 -- CreateTable
-CREATE TABLE `Client` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `updatedAt` DATETIME(3) NOT NULL,
-    `name` VARCHAR(191) NOT NULL,
-    `image` VARCHAR(191) NOT NULL,
-    `address` VARCHAR(191) NULL,
-    `phone` VARCHAR(191) NOT NULL,
-    `email` VARCHAR(191) NOT NULL,
-    `password` VARCHAR(191) NOT NULL,
-
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
 CREATE TABLE `Product` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
@@ -21,6 +6,8 @@ CREATE TABLE `Product` (
     `name` VARCHAR(191) NOT NULL,
     `image` VARCHAR(191) NOT NULL,
     `price` DECIMAL(65, 30) NOT NULL,
+    `description` VARCHAR(191) NOT NULL DEFAULT 'no definido',
+    `ingredients` VARCHAR(191) NOT NULL DEFAULT 'no definido',
     `category_id` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -31,11 +18,11 @@ CREATE TABLE `Order` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
-    `client_id` INTEGER NOT NULL,
+    `user_id` INTEGER NOT NULL,
     `date` DATETIME(3) NOT NULL,
     `total` DECIMAL(65, 30) NOT NULL,
     `order_status` ENUM('PENDIENTE', 'ENTREGADO', 'CANCELADO') NOT NULL,
-    `payment_status` ENUM('EFECTIVO', 'YAPE') NOT NULL,
+    `payment_status` ENUM('EFECTIVO', 'TARJETA', 'YAPE') NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -81,7 +68,7 @@ CREATE TABLE `Payment` (
     `updatedAt` DATETIME(3) NOT NULL,
     `type` VARCHAR(191) NOT NULL,
     `amount` DECIMAL(65, 30) NOT NULL,
-    `state` ENUM('EFECTIVO', 'YAPE') NOT NULL,
+    `state` ENUM('EFECTIVO', 'TARJETA', 'YAPE') NOT NULL,
     `order_id` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -113,11 +100,20 @@ CREATE TABLE `Rol` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `Favorite` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `user_id` INTEGER NOT NULL,
+    `product_id` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `Product` ADD CONSTRAINT `Product_category_id_fkey` FOREIGN KEY (`category_id`) REFERENCES `Category`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Order` ADD CONSTRAINT `Order_client_id_fkey` FOREIGN KEY (`client_id`) REFERENCES `Client`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Order` ADD CONSTRAINT `Order_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Details_Order` ADD CONSTRAINT `Details_Order_order_id_fkey` FOREIGN KEY (`order_id`) REFERENCES `Order`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -130,3 +126,9 @@ ALTER TABLE `Payment` ADD CONSTRAINT `Payment_order_id_fkey` FOREIGN KEY (`order
 
 -- AddForeignKey
 ALTER TABLE `User` ADD CONSTRAINT `User_rol_id_fkey` FOREIGN KEY (`rol_id`) REFERENCES `Rol`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Favorite` ADD CONSTRAINT `Favorite_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Favorite` ADD CONSTRAINT `Favorite_product_id_fkey` FOREIGN KEY (`product_id`) REFERENCES `Product`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

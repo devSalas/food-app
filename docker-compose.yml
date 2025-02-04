@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    build: .  # Esto genera la imagen basada en el Dockerfile
+    container_name: node-app
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  db:
+    image: mysql:8.0  # Esto está bien, ya que estamos usando una imagen pública
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_DATABASE: food_app_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:

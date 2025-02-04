@@ -8,7 +8,7 @@ import { verificarId } from "../utils/verificarId";
 
 async function getCategories(_req: Request, res: Response) {
   const categories = await CategoryService.getCategories();
-
+  console.log(11,{categories})
   sendJsonResponse(res, 200, categories, "Todas la categorias");
 }
 

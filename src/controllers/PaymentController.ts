@@ -39,7 +39,6 @@ const postPagePayment = async (req: CustomRequest, res: Response) => {
 		objectProductsId[index] = value;
 	});
 
-	console.log(objectProductsId);
 	const sesion = await stripe.checkout.sessions.create({
 		success_url: process.env.REDIRED_SUCCESS_URL,
 		line_items: [...data],

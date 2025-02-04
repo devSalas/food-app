@@ -30,16 +30,16 @@ export async function createUser({
   const isexist = await prisma.user.findFirst({ where: { email } });
   
   if (isexist?.id) throw new CustomError("Email is already registered", 400);
-  
+ 
   const passwordEncrypt = await EncryptPassword({ password });
-  
+
   const rol = await getRolbyName({ name: "client" });
   
   if (!rol.id) throw new CustomError("Server Error", 500);
 
   const name=email.split('@')[0]
   const image=''
-
+  
   const user = await prisma.user.create({
     data: {
       address:'',
@@ -50,7 +50,7 @@ export async function createUser({
       rol_id: rol.id,
     },
   });
-
+  console.log({user})
   return user;
 }
 export async function getUserbyName({ name }: { name: string }) {

@@ -17,6 +17,7 @@ export async function createUser(req: Request, res: Response) {
     email,
     password,
   });
+
   sendJsonResponse(res, 201, users, "user created");
 }
 
@@ -44,6 +45,7 @@ export async function deleteUser(req: CustomRequest, res: Response) {
   sendJsonResponse(res, 204, user, "user deleted");
 }
 export async function updateUser(req: CustomRequest, res: Response) {
+
   if(req.id === undefined) return
   const {id}=req
   const {name} = req.body;

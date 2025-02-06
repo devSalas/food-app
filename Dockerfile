@@ -26,4 +26,4 @@ RUN npx prisma generate
 EXPOSE 5000
 
 # Aplicar las migraciones y ejecutar la aplicación
-CMD ["sh", "-c", "npx prisma migrate deploy && npm run dev"]
+CMD ["sh", "-c", "npx prisma migrate deploy && npm run start"]

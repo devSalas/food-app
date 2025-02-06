@@ -32,6 +32,8 @@ jobs:
         run: npm install
       - name: Generate Prisma Client
         run: npx prisma generate
+      - name: Construir aplicación
+        run: npm run start 
       - name: build seed
         run: npm run seed
       - name: Configurar Docker
@@ -61,6 +63,6 @@ jobs:
               -e API_KEY="${{ secrets.API_KEY }}" \
               -e API_SECRET="${{ secrets.API_SECRET }}" \
               -e SECRET_JWT="${{ secrets.SECRET_JWT }}" \
-              -e REDIRED_SUCCESS_URL="${{ secrets.OTRA_VARIABLE }}" \
+              -e REDIRED_SUCCESS_URL="${{ secrets.REDIRED_SUCCESS_URL}}" \
               ${{ secrets.DOCKERHUB_USERNAME }}/app:latest
           EOF

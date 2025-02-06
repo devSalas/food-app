@@ -34,8 +34,6 @@ jobs:
         run: npx prisma generate
       - name: Construir aplicación
         run: npm run build 
-      - name: ejecutar aplicación
-        run: npm run start 
       - name: build seed
         run: npm run seed
       - name: Configurar Docker

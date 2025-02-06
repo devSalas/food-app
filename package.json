@@ -8,7 +8,7 @@
 	"description": "",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"seed": "node ./dist/src/seed/seed.js",
+		"seed": "node dist/src/seed/seed.js",
 		"build": "npx tsc",
 		"start": "node dist/src/index.js",
 		"dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/index.js\"",

@@ -9,8 +9,14 @@ services:
       - db
     ports:
       - "5000:5000"
-    env_file:
-      - .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      CLOUD_NAME: ${CLOUD_NAME}
+      API_KEY: ${API_KEY}
+      API_SECRET: ${API_SECRET}
+      SECRET_JWT: ${SECRET_JWT}
+      STRIPE_KEY: ${STRIPE_KEY}
+      REDIRED_SUCCESS_URL: ${REDIRED_SUCCESS_URL}
     volumes:
       - .:/app
       - /app/node_modules

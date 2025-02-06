@@ -32,15 +32,16 @@ jobs:
         run: npm install
       - name: Generate Prisma Client
         run: npx prisma generate
-
+      - name: build seed
+        run: npm run seed
       - name: Configurar Docker
         run: |
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Construir y subir imagen a Docker Hub
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/mi-web:latest .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/mi-web:latest
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/food_app_back:latest .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/food_app_back:latest
 
       - name: Conectar con VPS y actualizar contenedor
         run: |
@@ -50,8 +51,16 @@ jobs:
           ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/mi-app:latest
-            docker stop mi_web || true
-            docker rm mi_web || true
-            docker run -d --name mi_web -p 8080:80 ${{ secrets.DOCKERHUB_USERNAME }}/mi-app:latest
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/food_app_back:latest
+            docker stop food_app_back || true
+            docker rm food_app_back || true
+            docker run -d --name food_app_back \
+              -p 8060:80 \
+              -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+              -e CLOUD_NAME="${{ secrets.CLOUD_NAME }}" \
+              -e API_KEY="${{ secrets.API_KEY }}" \
+              -e API_SECRET="${{ secrets.API_SECRET }}" \
+              -e SECRET_JWT="${{ secrets.SECRET_JWT }}" \
+              -e REDIRED_SUCCESS_URL="${{ secrets.OTRA_VARIABLE }}" \
+              ${{ secrets.DOCKERHUB_USERNAME }}/app:latest
           EOF
